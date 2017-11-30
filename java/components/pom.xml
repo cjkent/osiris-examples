@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>osiris-java-example</artifactId>
+        <groupId>io.github.cjkent.osiris.example</groupId>
+        <version>0.5.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <artifactId>osiris-java-example-components</artifactId>
+    <packaging>jar</packaging>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.cjkent.osiris</groupId>
+            <artifactId>osiris-core</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

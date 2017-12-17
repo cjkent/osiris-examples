@@ -5,11 +5,11 @@
 
     <parent>
         <groupId>io.github.cjkent.osiris.example</groupId>
-        <artifactId>osiris-java-example</artifactId>
+        <artifactId>osiris-custom-auth-example2</artifactId>
         <version>0.6.1</version>
         <relativePath>..</relativePath>
     </parent>
-    <artifactId>osiris-java-example-local-server</artifactId>
+    <artifactId>osiris-custom-auth-example2-local-server</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.cjkent.osiris.example</groupId>
-            <artifactId>osiris-java-example-core</artifactId>
+            <artifactId>osiris-custom-auth-example2-core</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>com.amazonaws</groupId>
@@ -73,7 +73,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>io.github.cjkent.osiris.example.java.generated.GeneratedLocalServerKt</argument>
+                        <argument>io.github.cjkent.osiris.example.customauth2.generated.GeneratedLocalServerKt</argument>
                         <argument>-p</argument>
                         <argument>8080</argument>
                     </arguments>

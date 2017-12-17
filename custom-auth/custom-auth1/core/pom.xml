@@ -5,11 +5,11 @@
 
     <parent>
         <groupId>io.github.cjkent.osiris.example</groupId>
-        <artifactId>osiris-dynamodb-example</artifactId>
+        <artifactId>osiris-custom-auth-example1</artifactId>
         <version>0.6.1</version>
         <relativePath>..</relativePath>
     </parent>
-    <artifactId>osiris-dynamodb-example-core</artifactId>
+    <artifactId>osiris-custom-auth-example1-core</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -28,10 +28,6 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-dynamodb</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

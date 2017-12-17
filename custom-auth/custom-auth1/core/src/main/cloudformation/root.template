@@ -1,0 +1,91 @@
+Resources:
+
+  # This role is used by the lambda defined in ApiStack. Its permissions are defined by LambdaPolicy below
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+
+  # This policy needs to give the lambda code permission for the resources defined in this file
+  LambdaPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+        - !Ref LambdaRole
+      PolicyName: LambdaPolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "logs:*"
+            Resource: "arn:aws:logs:*:*:*"
+
+  # This role is used by the custom authentication lambda
+  CustomAuthLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+
+  CustomAuthLambdaPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+        - !Ref CustomAuthLambdaRole
+      PolicyName: CustomAuthLambdaPolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "logs:*"
+            Resource: "arn:aws:logs:*:*:*"
+
+  # Lambda function that performs custom authorisation
+  CustomAuthLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: io.github.cjkent.osiris.example.customauth1.core.CustomAuthorizer::authorize
+      Runtime: java8
+      MemorySize: 512
+      Timeout: 10
+      Code:
+        S3Bucket: ${codeS3Bucket}
+        S3Key: ${codeS3Key}
+      Role: !GetAtt CustomAuthLambdaRole.Arn
+
+  # This references the generated CloudFormation file that defines the API in API Gateway and the
+  # lambda that handles requests
+  ApiStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/osiris-custom-auth-example1.code/osiris-custom-auth-example1.template"
+      Parameters:
+        LambdaRole: !GetAtt LambdaRole.Arn
+        CustomAuthArn: !GetAtt CustomAuthLambdaFunction.Arn
+
+  # Adds permissions to the custom auth lambda so it can be invoked by the custom authorizer
+  # This needs to be in a separate template as it requires the ARN of the auth lambda and the ID of the API
+  # If it were defined in this file or in the API file there would be a circular dependency
+  PermissionsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/osiris-custom-auth-example1.code/permissions.template"
+      Parameters:
+        ApiId: !GetAtt ApiStack.Outputs.ApiId
+        AuthorizerId: !GetAtt ApiStack.Outputs.AuthorizerId
+        CustomAuthArn: !GetAtt CustomAuthLambdaFunction.Arn

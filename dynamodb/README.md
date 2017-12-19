@@ -4,7 +4,7 @@ This project demonstrates building a very simple application that uses DynamoDB.
 
 Other services must be configured manually using AWS CloudFormation. Osiris provides support for deploying these resources as a single atomic unit along with the REST API.
 
-This manual resource defined in this project is a DynamoDB table, but the same concept applies to any AWS resource.
+The resource defined in this project is a DynamoDB table, but the same concept applies to any AWS resource.
 
 This project show three main concepts:
 

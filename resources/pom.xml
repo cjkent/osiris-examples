@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.cjkent.osiris.example</groupId>
-    <artifactId>osiris-dynamodb-example</artifactId>
+    <artifactId>osiris-resources-example</artifactId>
     <version>0.7.0</version>
     <packaging>pom</packaging>
 
@@ -12,10 +12,10 @@
         <kotlin.version>1.2.20</kotlin.version>
         <osiris.version>0.7.0</osiris.version>
         <gson.version>2.8.2</gson.version>
-        <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <aws-sdk.version>1.11.233</aws-sdk.version>
+        <log4j.version>2.10.0</log4j.version>
         <aws-lambda-java-log4j.version>1.0.0</aws-lambda-java-log4j.version>
+        <aws-sdk.version>1.11.258</aws-sdk.version>
     </properties>
 
     <modules>
@@ -27,7 +27,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.github.cjkent.osiris.example</groupId>
-                <artifactId>osiris-dynamodb-example-core</artifactId>
+                <artifactId>osiris-resources-example-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -56,11 +56,6 @@
                 <version>${gson.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-dynamodb</artifactId>
-                <version>${aws-sdk.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -76,9 +71,14 @@
                 <version>${aws-lambda-java-log4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-sqs</artifactId>
+                <version>${aws-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -92,9 +92,9 @@
                 <artifactId>osiris-maven-plugin</artifactId>
                 <version>${osiris.version}</version>
                 <configuration>
-                    <apiProperty>io.github.cjkent.osiris.example.dynamodb.core::api</apiProperty>
-                    <componentsFunction>io.github.cjkent.osiris.example.dynamodb.core::createComponents()</componentsFunction>
-                    <configProperty>io.github.cjkent.osiris.example.dynamodb.core::config</configProperty>
+                    <apiProperty>io.github.cjkent.osiris.example.resources.core::api</apiProperty>
+                    <componentsFunction>io.github.cjkent.osiris.example.resources.core::createComponents()</componentsFunction>
+                    <configProperty>io.github.cjkent.osiris.example.resources.core::config</configProperty>
                 </configuration>
             </plugin>
             <!--Standard plugins - this configuration shouldn't need to be changed-->

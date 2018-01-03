@@ -6,7 +6,7 @@ import io.github.cjkent.osiris.core.api
 import org.slf4j.LoggerFactory
 
 /** The API. */
-val api = api(ComponentsProvider::class) {
+val api = api<ComponentsProvider> {
     get("/helloworld") {
         mapOf("message" to "hello, world!")
     }

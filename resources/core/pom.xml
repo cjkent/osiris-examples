@@ -5,18 +5,14 @@
 
     <parent>
         <groupId>io.github.cjkent.osiris.example</groupId>
-        <artifactId>osiris-java-example</artifactId>
+        <artifactId>osiris-resources-example</artifactId>
         <version>0.7.0</version>
         <relativePath>..</relativePath>
     </parent>
-    <artifactId>osiris-java-example-core</artifactId>
+    <artifactId>osiris-resources-example-core</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.cjkent.osiris.example</groupId>
-            <artifactId>osiris-java-example-components</artifactId>
-        </dependency>
         <dependency>
             <groupId>io.github.cjkent.osiris</groupId>
             <artifactId>osiris-core</artifactId>
@@ -40,6 +36,10 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sqs</artifactId>
         </dependency>
     </dependencies>
 

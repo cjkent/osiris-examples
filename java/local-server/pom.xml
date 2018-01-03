@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.github.cjkent.osiris.example</groupId>
         <artifactId>osiris-java-example</artifactId>
-        <version>0.6.1</version>
+        <version>0.7.0</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-java-example-local-server</artifactId>

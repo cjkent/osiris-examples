@@ -5,12 +5,12 @@
 
     <groupId>io.github.cjkent.osiris.example</groupId>
     <artifactId>osiris-custom-auth-example1</artifactId>
-    <version>0.6.1</version>
+    <version>0.7.0</version>
     <packaging>pom</packaging>
 
     <properties>
-        <kotlin.version>1.2.0</kotlin.version>
-        <osiris.version>0.6.1</osiris.version>
+        <kotlin.version>1.2.20</kotlin.version>
+        <osiris.version>0.7.0</osiris.version>
         <gson.version>2.8.2</gson.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -86,34 +86,9 @@
                 <artifactId>osiris-maven-plugin</artifactId>
                 <version>${osiris.version}</version>
                 <configuration>
-                    <apiName>osiris-custom-auth-example1</apiName>
-                    <region>eu-west-1</region>
                     <apiProperty>io.github.cjkent.osiris.example.customauth1.core::api</apiProperty>
                     <componentsFunction>io.github.cjkent.osiris.example.customauth1.core::createComponents()</componentsFunction>
-                    <lambdaTimeout>10</lambdaTimeout>
-                    <stages>
-                        <dev>
-                            <deployOnUpdate>true</deployOnUpdate>
-                            <description>Development stage</description>
-                            <variables>
-                                <var1>devValue1</var1>
-                                <var2>devValue2</var2>
-                            </variables>
-                        </dev>
-                        <!-- Stage with no variables or description that is not deployed when it is updated -->
-                        <uat/>
-                        <prod>
-                            <deployOnUpdate>false</deployOnUpdate>
-                            <description>Production stage</description>
-                            <variables>
-                                <var1>prodValue1</var1>
-                                <var2>prodValue2</var2>
-                            </variables>
-                        </prod>
-                    </stages>
-                    <environmentVariables>
-                        <EXAMPLE_ENVIRONMENT_VARIABLE>Bob</EXAMPLE_ENVIRONMENT_VARIABLE>
-                    </environmentVariables>
+                    <configProperty>io.github.cjkent.osiris.example.customauth1.core::config</configProperty>
                 </configuration>
             </plugin>
             <!--Standard plugins - this configuration shouldn't need to be changed-->

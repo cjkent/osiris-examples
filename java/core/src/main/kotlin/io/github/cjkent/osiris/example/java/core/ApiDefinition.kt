@@ -6,7 +6,7 @@ import io.github.cjkent.osiris.example.java.components.JavaComponentsProvider
 import io.github.cjkent.osiris.example.java.components.JavaComponentsProviderImpl
 
 /** The API. */
-val api = api(JavaComponentsProvider::class) {
+val api = api<JavaComponentsProvider> {
     get("/hello/{name}") { req ->
         val name = req.pathParams["name"]
         val greeting = greetingFactory.createGreeting(name)

@@ -13,7 +13,7 @@ private const val ID: String = "id"
 private const val VALUE: String = "value"
 
 /** The API. */
-val api = api(DynamoExampleComponents::class) {
+val api = api<DynamoExampleComponents> {
     get("/values") {
         val items = dynamoClient.scan(ITEMS_TABLE, listOf(ID, VALUE)).items
         items.map { item(it) }

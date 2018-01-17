@@ -1,9 +1,9 @@
 package io.github.cjkent.osiris.example.java.core
 
 import io.github.cjkent.osiris.core.api
-import io.github.cjkent.osiris.example.components.GreetingFactory
-import io.github.cjkent.osiris.example.components.JavaComponentsProvider
-import io.github.cjkent.osiris.example.components.JavaComponentsProviderImpl
+import io.github.cjkent.osiris.example.java.components.GreetingFactory
+import io.github.cjkent.osiris.example.java.components.JavaComponentsProvider
+import io.github.cjkent.osiris.example.java.components.JavaComponentsProviderImpl
 
 /** The API. */
 val api = api(JavaComponentsProvider::class) {

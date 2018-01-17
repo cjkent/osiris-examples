@@ -1,4 +1,4 @@
-package io.github.cjkent.osiris.example.components;
+package io.github.cjkent.osiris.example.java.components;
 
 /**
  * Simple implementation of {@link JavaComponentsProvider} written in Java; used by the Kotlin code in

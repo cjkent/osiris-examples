@@ -1,4 +1,4 @@
-package io.github.cjkent.osiris.example.components;
+package io.github.cjkent.osiris.example.java.components;
 
 import io.github.cjkent.osiris.core.ComponentsProvider;
 

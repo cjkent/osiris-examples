@@ -1,4 +1,4 @@
-package io.github.cjkent.osiris.example.components;
+package io.github.cjkent.osiris.example.java.components;
 
 /**
  * Trivial example component written in Java; returns a greeting given a person's name.

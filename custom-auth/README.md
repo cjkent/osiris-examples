@@ -14,7 +14,7 @@ This project defines and deploys the custom authorisation lambda as part of the 
 
 The CloudFormation resource defining the authorisation lambda is included in the file `root.template` and is called `CustomAuthFunction`. It is deployed in the same CloudFormation stack as the API Gateway API and the lambda that handles requests to the API.
 
-TODO link to the wiki page describing how to define additional AWS resources (once it has been written).
+See [this page](https://github.com/cjkent/osiris/wiki/Creating-AWS-Resources) for details of how to create other AWS resources in an Osiris project.
 
 The authorisation logic in `CustomAuthorizer` is trivial - it checks whether the authorisation token passed in the `Authorization` header is the string "allow". If so it returns an IAM policy document with permission to invoke the endpoint. A real authorisation lambda function would validate the authorisation token before returning the policy.
 

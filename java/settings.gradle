@@ -1,0 +1,8 @@
+rootProject.name = 'osiris-java-example'
+include ':osiris-java-example-components'
+include ':osiris-java-example-core'
+include ':osiris-java-example-local-server'
+
+project(':osiris-java-example-components').projectDir = "$rootDir/components" as File
+project(':osiris-java-example-core').projectDir = "$rootDir/core" as File
+project(':osiris-java-example-local-server').projectDir = "$rootDir/local-server" as File

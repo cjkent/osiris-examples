@@ -1,0 +1,6 @@
+rootProject.name = 'osiris-resources-example'
+include ':osiris-resources-example-core'
+include ':osiris-resources-example-local-server'
+
+project(':osiris-resources-example-core').projectDir = "$rootDir/core" as File
+project(':osiris-resources-example-local-server').projectDir = "$rootDir/local-server" as File

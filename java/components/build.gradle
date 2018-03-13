@@ -1,0 +1,5 @@
+dependencies {
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.10.0'
+    compile group: 'ws.osiris', name: 'osiris-core', version: '0.9.0'
+}

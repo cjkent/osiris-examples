@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.cjkent.osiris.example</groupId>
+        <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-custom-auth-example2</artifactId>
-        <version>0.8.0</version>
+        <version>0.9.0</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-custom-auth-example2-core</artifactId>
@@ -14,11 +14,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.cjkent.osiris</groupId>
+            <groupId>ws.osiris</groupId>
             <artifactId>osiris-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.cjkent.osiris</groupId>
+            <groupId>ws.osiris</groupId>
             <artifactId>osiris-aws</artifactId>
         </dependency>
         <dependency>
@@ -67,16 +67,13 @@
             </plugin>
             <!--Configuration controlling how the API is deployed to API Gateway and Lambda-->
             <plugin>
-                <groupId>io.github.cjkent.osiris</groupId>
+                <groupId>ws.osiris</groupId>
                 <artifactId>osiris-maven-plugin</artifactId>
                 <version>${osiris.version}</version>
+                <configuration>
+                    <rootPackage>ws.osiris.example.customauth2</rootPackage>
+                </configuration>
                 <executions>
-                    <execution>
-                        <id>generate-lambda</id>
-                        <goals>
-                            <goal>generate-lambda</goal>
-                        </goals>
-                    </execution>
                     <execution>
                         <id>generate-cloudformation</id>
                         <goals>

@@ -1,0 +1,7 @@
+dependencies {
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: "$kotlinVersion"
+    compile project(':osiris-java-example-core')
+    compile group: 'ws.osiris', name: 'osiris-local-server', version: "$osirisVersion"
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.10.0'
+}

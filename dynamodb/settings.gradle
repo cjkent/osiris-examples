@@ -1,0 +1,6 @@
+rootProject.name = 'osiris-dynamodb-example'
+include ':osiris-dynamodb-example-core'
+include ':osiris-dynamodb-example-local-server'
+
+project(':osiris-dynamodb-example-core').projectDir = "$rootDir/core" as File
+project(':osiris-dynamodb-example-local-server').projectDir = "$rootDir/local-server" as File

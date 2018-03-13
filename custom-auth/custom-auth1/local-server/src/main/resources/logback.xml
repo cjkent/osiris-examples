@@ -12,7 +12,7 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="io.github.cjkent.osiris.example.customauth1" level="info"/>
-    <logger name="io.github.cjkent.osiris" level="info"/>
+    <logger name="ws.osiris.example.customauth1" level="info"/>
+    <logger name="ws.osiris" level="info"/>
 
 </configuration>

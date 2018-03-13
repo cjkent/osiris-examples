@@ -1,0 +1,6 @@
+rootProject.name = 'osiris-custom-auth-example1'
+include ':osiris-custom-auth-example1-core'
+include ':osiris-custom-auth-example1-local-server'
+
+project(':osiris-custom-auth-example1-core').projectDir = "$rootDir/core" as File
+project(':osiris-custom-auth-example1-local-server').projectDir = "$rootDir/local-server" as File

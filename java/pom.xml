@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.cjkent.osiris.example</groupId>
+    <groupId>ws.osiris.example</groupId>
     <artifactId>osiris-java-example</artifactId>
-    <version>0.8.0</version>
+    <version>0.9.0</version>
     <packaging>pom</packaging>
 
     <properties>
         <kotlin.version>1.2.20</kotlin.version>
-        <osiris.version>0.8.0</osiris.version>
+        <osiris.version>0.9.0</osiris.version>
         <gson.version>2.8.2</gson.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -25,27 +25,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.github.cjkent.osiris.example</groupId>
+                <groupId>ws.osiris.example</groupId>
                 <artifactId>osiris-java-example-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.cjkent.osiris.example</groupId>
+                <groupId>ws.osiris.example</groupId>
                 <artifactId>osiris-java-example-components</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.cjkent.osiris</groupId>
+                <groupId>ws.osiris</groupId>
                 <artifactId>osiris-core</artifactId>
                 <version>${osiris.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.cjkent.osiris</groupId>
+                <groupId>ws.osiris</groupId>
                 <artifactId>osiris-local-server</artifactId>
                 <version>${osiris.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.cjkent.osiris</groupId>
+                <groupId>ws.osiris</groupId>
                 <artifactId>osiris-aws</artifactId>
                 <version>${osiris.version}</version>
             </dependency>
@@ -86,16 +86,6 @@
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
-            <plugin>
-                <groupId>io.github.cjkent.osiris</groupId>
-                <artifactId>osiris-maven-plugin</artifactId>
-                <version>${osiris.version}</version>
-                <configuration>
-                    <apiProperty>io.github.cjkent.osiris.example.java.core::api</apiProperty>
-                    <componentsFunction>io.github.cjkent.osiris.example.java.core::createComponents()</componentsFunction>
-                    <configProperty>io.github.cjkent.osiris.example.java.core::config</configProperty>
-                </configuration>
-            </plugin>
             <!--Standard plugins - this configuration shouldn't need to be changed-->
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>

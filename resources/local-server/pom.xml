@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.cjkent.osiris.example</groupId>
+        <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-resources-example</artifactId>
-        <version>0.8.0</version>
+        <version>0.9.0</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-resources-example-local-server</artifactId>
@@ -18,7 +18,7 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.cjkent.osiris.example</groupId>
+            <groupId>ws.osiris.example</groupId>
             <artifactId>osiris-resources-example-core</artifactId>
             <exclusions>
                 <exclusion>
@@ -28,7 +28,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.github.cjkent.osiris</groupId>
+            <groupId>ws.osiris</groupId>
             <artifactId>osiris-local-server</artifactId>
         </dependency>
         <dependency>
@@ -39,19 +39,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>io.github.cjkent.osiris</groupId>
-                <artifactId>osiris-maven-plugin</artifactId>
-                <version>${osiris.version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-local-server</id>
-                        <goals>
-                            <goal>generate-local-server</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!--Configuration controlling how the API is run locally using 'mvn exec:exec'-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -69,7 +56,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>io.github.cjkent.osiris.example.resources.generated.GeneratedLocalServerKt</argument>
+                        <argument>ws.osiris.example.resources.generated.GeneratedLocalServerKt</argument>
                         <argument>-p</argument>
                         <argument>8080</argument>
                     </arguments>

@@ -59,7 +59,7 @@ Resources:
   CustomAuthLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: io.github.cjkent.osiris.example.customauth1.core.CustomAuthorizer::authorize
+      Handler: ws.osiris.example.customauth1.core.CustomAuthorizer::authorize
       Runtime: java8
       MemorySize: 512
       Timeout: 10

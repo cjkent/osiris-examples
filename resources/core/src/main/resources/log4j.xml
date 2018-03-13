@@ -8,11 +8,11 @@
         </layout>
     </appender>
 
-    <logger name="io.github.cjkent.osiris.example.resources">
+    <logger name="ws.osiris.example.resources">
         <level value="info"/>
     </logger>
 
-    <logger name="io.github.cjkent.osiris">
+    <logger name="ws.osiris">
         <level value="warn"/>
     </logger>
 

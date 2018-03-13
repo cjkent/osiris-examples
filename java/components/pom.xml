@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>osiris-java-example</artifactId>
-        <groupId>io.github.cjkent.osiris.example</groupId>
-        <version>0.8.0</version>
+        <groupId>ws.osiris.example</groupId>
+        <version>0.9.0</version>
         <relativePath>..</relativePath>
     </parent>
     <properties>
@@ -24,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.cjkent.osiris</groupId>
+            <groupId>ws.osiris</groupId>
             <artifactId>osiris-core</artifactId>
         </dependency>
     </dependencies>

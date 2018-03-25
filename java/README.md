@@ -1,5 +1,5 @@
-# Java Example Project
-
+Java Example Project
+====================
 This project demonstrates using Java to implement the logic in an application that uses Osiris.
 
 The API definition is written in Kotlin (`ApiDefinition.kt`) but this is the only Kotlin code in the project. The `ComponentsProvider` interface and implementation are written in Java (`JavaComponentsProvider` and `JavaComponentsProviderImpl`). The component used by the Kotlin code is also written in Java (`GreetingFactory`).

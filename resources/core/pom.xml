@@ -6,7 +6,7 @@
     <parent>
         <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-resources-example</artifactId>
-        <version>0.9.0</version>
+        <version>0.9.1</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-resources-example-core</artifactId>

@@ -58,6 +58,6 @@ Resources:
   ApiStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/osiris-dynamodb-example.code/osiris-dynamodb-example.template"
+      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/${bucketPrefix}osiris-dynamodb-example.code/osiris-dynamodb-example.template"
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn

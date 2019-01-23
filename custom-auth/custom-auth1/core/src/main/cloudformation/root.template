@@ -73,7 +73,7 @@ Resources:
   ApiStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/osiris-custom-auth-example1.code/osiris-custom-auth-example1.template"
+      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/${bucketPrefix}osiris-custom-auth-example1.code/osiris-custom-auth-example1.template"
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn
         CustomAuthArn: !GetAtt CustomAuthLambdaFunction.Arn
@@ -84,7 +84,7 @@ Resources:
   PermissionsStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/osiris-custom-auth-example1.code/permissions.template"
+      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/${bucketPrefix}osiris-custom-auth-example1.code/permissions.template"
       Parameters:
         ApiId: !GetAtt ApiStack.Outputs.ApiId
         AuthorizerId: !GetAtt ApiStack.Outputs.AuthorizerId

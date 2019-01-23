@@ -11,9 +11,6 @@ val config = ApplicationConfig(
     applicationName = "osiris-binary-example",
     lambdaMemorySizeMb = 512,
     lambdaTimeout = Duration.ofSeconds(10),
-    environmentVariables = mapOf(
-        "EXAMPLE_ENVIRONMENT_VARIABLE" to "Bob"
-    ),
     binaryMimeTypes = setOf(
         "image/png",
         "image/jpeg"

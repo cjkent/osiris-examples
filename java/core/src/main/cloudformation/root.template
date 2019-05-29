@@ -34,6 +34,6 @@ Resources:
   ApiStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/${bucketPrefix}osiris-java-example.code/osiris-java-example.template"
+      TemplateURL: !Sub "https://${codeS3Bucket}.s3.amazonaws.com/osiris-java-example.template"
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn

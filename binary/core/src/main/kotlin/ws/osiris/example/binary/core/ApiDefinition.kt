@@ -9,8 +9,15 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
 
+private val imageMimeTypes: Set<String> = setOf(
+    "image/png",
+    "image/jpeg"
+)
+
 /** The API. */
 val api = api<ComponentsProvider> {
+
+    binaryMimeTypes = imageMimeTypes
 
     // Rotates an image clockwise by 90 degrees
     // The Content-Type header of the request must be image/png or image/jpeg
@@ -19,8 +26,8 @@ val api = api<ComponentsProvider> {
     post("/rotate90") { req ->
         val contentTypeHeader = req.headers[HttpHeaders.CONTENT_TYPE]
         val (mimeType, _) = ContentType.parse(contentTypeHeader)
-        if (!config.binaryMimeTypes.contains(mimeType)) {
-            throw IllegalArgumentException("Content-Type must be one of ${config.binaryMimeTypes}")
+        if (!imageMimeTypes.contains(mimeType)) {
+            throw IllegalArgumentException("Content-Type must be one of $imageMimeTypes")
         }
         val image = ImageIO.read(ByteArrayInputStream(req.requireBinaryBody()))
         val rotatedImage = Scalr.rotate(image, Scalr.Rotation.CW_90)

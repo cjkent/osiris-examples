@@ -11,10 +11,6 @@ val config = ApplicationConfig(
     applicationName = "osiris-binary-example",
     lambdaMemorySizeMb = 512,
     lambdaTimeout = Duration.ofSeconds(10),
-    binaryMimeTypes = setOf(
-        "image/png",
-        "image/jpeg"
-    ),
     stages = listOf(
         Stage(
             name = "dev",

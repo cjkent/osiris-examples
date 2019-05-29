@@ -34,6 +34,6 @@ Resources:
   ApiStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://s3-${AWS::Region}.amazonaws.com/${bucketPrefix}osiris-custom-auth-example2.code/osiris-custom-auth-example2.template"
+      TemplateURL: !Sub "https://${codeS3Bucket}.s3.amazonaws.com/osiris-custom-auth-example2.template"
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn

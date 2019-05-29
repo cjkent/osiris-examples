@@ -6,7 +6,7 @@
     <parent>
         <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-dynamodb-example</artifactId>
-        <version>0.9.1</version>
+        <version>0.13.0</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-dynamodb-example-local-server</artifactId>

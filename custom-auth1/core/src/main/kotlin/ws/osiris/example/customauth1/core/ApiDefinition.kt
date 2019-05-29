@@ -27,7 +27,7 @@ fun createComponents(): ComponentsProvider = object : ComponentsProvider {}
 /**
  * A lambda function that is used as a custom authoriser by API Gateway.
  *
- * It is deployed separately from the API by adding hand-written resource to the file `root.template`.
+ * It is deployed separately from the API by adding a hand-written resource to the file `root.template`.
  *
  * When a request is made to an endpoint with custom authorisation then this lambda is invoked.
  * If the caller is authorised to invoke the endpoint then this lambda returns an IAM policy document

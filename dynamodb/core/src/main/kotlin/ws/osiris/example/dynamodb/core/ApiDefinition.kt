@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue
 import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
 import ws.osiris.core.api
-import java.util.UUID
+import java.util.*
 
 private const val ITEMS_TABLE: String = "Items"
 private const val ID: String = "id"
@@ -27,7 +27,11 @@ val api = api<DynamoExampleComponents> {
     get("/values/{id}") { req ->
         val id = req.pathParams[ID]
         val item = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(id))).item
-        item(item)
+        if (item == null) {
+            req.responseBuilder().status(404).build()
+        } else {
+            item(item)
+        }
     }
     delete("/values/{id}") { req ->
         val id = req.pathParams[ID]

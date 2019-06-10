@@ -1,0 +1,6 @@
+rootProject.name = 'osiris-lumigo-example'
+include ':osiris-lumigo-example-core'
+include ':osiris-lumigo-example-local-server'
+
+project(':osiris-lumigo-example-core').projectDir = "$rootDir/core" as File
+project(':osiris-lumigo-example-local-server').projectDir = "$rootDir/local-server" as File

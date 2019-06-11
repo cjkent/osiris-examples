@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue
 import com.amazonaws.services.sqs.AmazonSQS
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder
 import com.google.gson.Gson
+import io.lumigo.handlers.LumigoConfiguration
 import io.lumigo.handlers.LumigoRequestExecutor
 import ws.osiris.aws.lambdaContext
 import ws.osiris.aws.lambdaEvent
@@ -13,7 +14,7 @@ import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
 import ws.osiris.core.HttpMethod
 import ws.osiris.core.api
-import java.util.*
+import java.util.UUID
 
 internal const val ITEMS_TABLE: String = "Items"
 internal const val ID: String = "id"
@@ -80,7 +81,10 @@ private fun item(item: MutableMap<String, AttributeValue>) =
 /**
  * Creates the components used by the test API.
  */
-fun createComponents(): LumigoExampleComponents = LumigoExampleComponentsImpl()
+fun createComponents(): LumigoExampleComponents {
+    LumigoConfiguration.builder().lazyLoading(false).token("t_84958e70999082aea994").build().init();
+    return LumigoExampleComponentsImpl()
+}
 
 /**
  * Components used in the DynamoDB example; contains a DynamoDB client.

@@ -61,8 +61,8 @@ Resources:
   Queue:
     Type: AWS::SQS::Queue
     Properties:
-      FifoQueue: true
-      QueueName: exampleQueue.fifo
+      FifoQueue: false
+      QueueName: exampleQueue
       ContentBasedDeduplication: true
 
   Bucket:

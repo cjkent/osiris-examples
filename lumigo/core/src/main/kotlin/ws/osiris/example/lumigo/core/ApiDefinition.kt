@@ -9,7 +9,7 @@ import ws.osiris.aws.lambdaEvent
 import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
 import ws.osiris.core.api
-import java.util.*
+import java.util.UUID
 
 private const val ITEMS_TABLE: String = "Items"
 private const val ID: String = "id"

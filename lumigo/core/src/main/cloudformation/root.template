@@ -39,6 +39,12 @@ Resources:
               - "dynamodb:Query"
               - "dynamodb:Scan"
             Resource: !GetAtt DynamoTable.Arn
+          - Effect: Allow
+            Action:
+              - "sqs:SendMessage"
+              - "sqs:ReceiveMessage"
+              - "sqs:DeleteMessage"
+            Resource: !GetAtt Queue.Arn
 
   DynamoTable:
     Type: AWS::DynamoDB::Table
@@ -54,6 +60,18 @@ Resources:
         WriteCapacityUnits: 5
       TableName: Items
 
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      FifoQueue: true
+      QueueName: exampleQueue.fifo
+      ContentBasedDeduplication: true
+
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: osiris-lumigo-example-data
+
   # This references the generated CloudFormation file that defines the API endpoints and the lambda that handles requests
   ApiStack:
     Type: AWS::CloudFormation::Stack
@@ -61,3 +79,5 @@ Resources:
       TemplateURL: !Sub "https://${codeS3Bucket}.s3.amazonaws.com/osiris-lumigo-example.template"
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn
+        QueueUrl: !Ref Queue
+        BucketName: osiris-lumigo-example-data

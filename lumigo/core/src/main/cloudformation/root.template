@@ -97,7 +97,7 @@ Resources:
       Code:
         S3Bucket: ${codeS3Bucket}
         S3Key: ${codeS3Key}
-      Role: !Ref SqsLambdaRole
+      Role: !GetAtt SqsLambdaRole.Arn
 
   SqsLambdaPolicy:
     Type: AWS::IAM::Policy

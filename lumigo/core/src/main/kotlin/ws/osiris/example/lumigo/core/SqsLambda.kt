@@ -35,16 +35,14 @@ class SqsLambda : LumigoRequestHandler<SQSEvent, Unit>() {
 
     override fun doHandleRequest(event: SQSEvent, context: Context) {
         val message = event.records[0]
-        val messageBodyMap = gson.fromJson(message.body, Map::class.java)
-        val id = messageBodyMap.getValue(ID) as String
-        val action = messageBodyMap.getValue(ACTION) as String
-        log.info("Received message with ID {}, action {}", id, action)
-        val result = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(id)))
-            val value = result.item.getValue(VALUE).s
-        when (HttpMethod.valueOf(action)) {
-            HttpMethod.PUT -> putValue(id, value)
-            HttpMethod.DELETE -> deleteValue(id)
-            else -> throw IllegalArgumentException("Unexpected action $action")
+        val messageBody = gson.fromJson(message.body, MessageBody::class.java)
+        log.info("Received message with ID {}, action {}", messageBody.id, messageBody.action)
+        val result = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(messageBody.id)))
+        val value = result.item.getValue(VALUE).s
+        when (messageBody.action) {
+            HttpMethod.PUT -> putValue(messageBody.id, value)
+            HttpMethod.DELETE -> deleteValue(messageBody.id)
+            else -> throw IllegalArgumentException("Unexpected action ${messageBody.action}")
         }
     }
 

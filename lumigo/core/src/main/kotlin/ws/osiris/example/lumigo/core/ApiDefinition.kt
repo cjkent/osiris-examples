@@ -44,9 +44,9 @@ val api = api<LumigoExampleComponents> {
         val id = UUID.randomUUID().toString()
         val value = req.requireBody(String::class)
         dynamoClient.putItem(ITEMS_TABLE, mapOf(ID to AttributeValue(id), VALUE to AttributeValue(value)))
-        val messageBodyMap = mapOf(ID to id, ACTION to HttpMethod.PUT.name)
-        val messageBody = gson.toJson(messageBodyMap)
-        sqsClient.sendMessage(QUEUE_URL, messageBody)
+        val messageBody = MessageBody(id, HttpMethod.PUT)
+        val messageBodyJson = gson.toJson(messageBody)
+        sqsClient.sendMessage(QUEUE_URL, messageBodyJson)
         req.responseBuilder().status(201).header(HttpHeaders.LOCATION, "/values/$id").build()
     }
 
@@ -99,3 +99,5 @@ class LumigoExampleComponentsImpl : LumigoExampleComponents {
     override val sqsClient: AmazonSQS = AmazonSQSClientBuilder.defaultClient()
     override val gson: Gson = Gson()
 }
+
+data class MessageBody(val id: String, val action: HttpMethod)

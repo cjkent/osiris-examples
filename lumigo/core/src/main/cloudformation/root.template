@@ -56,14 +56,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-      TableName: Items
-
-  Queue:
-    Type: AWS::SQS::Queue
-    Properties:
-      FifoQueue: false
-      QueueName: exampleQueue
-      ContentBasedDeduplication: true
+      TableName: LumigoExampleItems
 
   Bucket:
     Type: AWS::S3::Bucket
@@ -79,6 +72,13 @@ Resources:
         LambdaRole: !GetAtt LambdaRole.Arn
         QueueUrl: !Ref Queue
         BucketName: osiris-lumigo-example-data
+
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: lumigoExampleQueue
+      DelaySeconds: 0
+      VisibilityTimeout: 120
 
   # -----------------------------------------------------------------------------------
 
@@ -114,8 +114,18 @@ Resources:
             Resource: "arn:aws:logs:*:*:*"
           - Effect: Allow
             Action:
+              - "dynamodb:BatchGetItem"
+              - "dynamodb:DescribeTable"
+              - "dynamodb:GetItem"
+              - "dynamodb:DeleteItem"
+              - "dynamodb:Query"
+              - "dynamodb:Scan"
+            Resource: !GetAtt DynamoTable.Arn
+          - Effect: Allow
+            Action:
               - "sqs:ReceiveMessage"
               - "sqs:DeleteMessage"
+              - "sqs:GetQueueAttributes"
             Resource: !GetAtt Queue.Arn
 
   SqsLambdaRole:

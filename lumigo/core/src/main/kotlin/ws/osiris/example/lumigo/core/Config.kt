@@ -10,7 +10,7 @@ import java.time.Duration
 val config = ApplicationConfig(
     applicationName = "osiris-lumigo-example",
     lambdaName = "osiris-lumigo-example",
-    lambdaMemorySizeMb = 2048,
+    lambdaMemorySizeMb = 1024,
     lambdaTimeout = Duration.ofMinutes(1),
     keepAliveCount = 1,
     stages = listOf(
@@ -19,8 +19,5 @@ val config = ApplicationConfig(
             description = "Development stage",
             deployOnUpdate = true
         )
-    ),
-    environmentVariables = mapOf(
-        "LUMIGO_TRACER_TOKEN" to "TODO - your lumigo token"
     )
 )

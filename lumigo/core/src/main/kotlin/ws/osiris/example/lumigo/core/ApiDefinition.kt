@@ -3,6 +3,7 @@ package ws.osiris.example.lumigo.core
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
 import com.amazonaws.services.dynamodbv2.model.AttributeValue
+import io.lumigo.handlers.LumigoConfiguration
 import io.lumigo.handlers.LumigoRequestExecutor
 import ws.osiris.aws.lambdaContext
 import ws.osiris.aws.lambdaEvent
@@ -56,7 +57,10 @@ private fun item(item: MutableMap<String, AttributeValue>) =
 /**
  * Creates the components used by the test API.
  */
-fun createComponents(): LumigoExampleComponents = LumigoExampleComponentsImpl()
+fun createComponents(): LumigoExampleComponents {
+    LumigoConfiguration.builder().lazyLoading(false).token("t_84958e70999082aea994").build().init();
+    return LumigoExampleComponentsImpl()
+}
 
 /**
  * Components used in the DynamoDB example; contains a DynamoDB client.

@@ -70,9 +70,6 @@ Resources:
     Properties:
       BucketName: osiris-lumigo-example-data
 
-  # lambda function, role, policy and SQS event trigger
-  # https://www.itonaut.com/2018/07/11/sqs-queue-as-lambda-trigger-in-aws-cloudformation/
-
   # This references the generated CloudFormation file that defines the API endpoints and the lambda that handles requests
   ApiStack:
     Type: AWS::CloudFormation::Stack

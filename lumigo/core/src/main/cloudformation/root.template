@@ -42,8 +42,6 @@ Resources:
           - Effect: Allow
             Action:
               - "sqs:SendMessage"
-              - "sqs:ReceiveMessage"
-              - "sqs:DeleteMessage"
             Resource: !GetAtt Queue.Arn
 
   DynamoTable:
@@ -84,3 +82,61 @@ Resources:
         LambdaRole: !GetAtt LambdaRole.Arn
         QueueUrl: !Ref Queue
         BucketName: osiris-lumigo-example-data
+
+  # -----------------------------------------------------------------------------------
+
+  # The SQS lambda
+  SqsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: osiris-lumigo-example-sqs
+      Handler: ws.osiris.example.lumigo.core.SqsLambda
+      Runtime: java8
+      MemorySize: 1024
+      Timeout: 60
+      Environment:
+        Variables:
+          LUMIGO_DEBUG: "true"
+      Code:
+        S3Bucket: ${codeS3Bucket}
+        S3Key: ${codeS3Key}
+      Role: !Ref SqsLambdaRole
+
+  SqsLambdaPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+        - !Ref SqsLambdaRole
+      PolicyName: SqsLambdaPolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "logs:*"
+            Resource: "arn:aws:logs:*:*:*"
+          - Effect: Allow
+            Action:
+              - "sqs:ReceiveMessage"
+              - "sqs:DeleteMessage"
+            Resource: !GetAtt Queue.Arn
+
+  SqsLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+
+  SqsLambdaEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt Queue.Arn
+      FunctionName: !GetAtt SqsFunction.Arn

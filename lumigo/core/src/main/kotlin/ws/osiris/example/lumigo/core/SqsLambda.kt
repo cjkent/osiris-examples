@@ -50,10 +50,12 @@ class SqsLambda : LumigoRequestHandler<SQSEvent, Unit>() {
     }
 
     private fun putValue(id: String, value: String) {
+        log.debug("Writing to S3 at {}/{}, value '{}'", BUCKET_NAME, id, value)
         s3Client.putObject(BUCKET_NAME, id, value)
     }
 
     private fun deleteValue(id: String) {
+        log.debug("Deleting object from S3, {}/{}", BUCKET_NAME, id)
         s3Client.deleteObject(BUCKET_NAME, id)
     }
 }

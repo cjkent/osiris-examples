@@ -127,6 +127,14 @@ Resources:
                   - "sqs:DeleteMessage"
                   - "sqs:GetQueueAttributes"
                 Resource: !GetAtt Queue.Arn
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "arn:aws:s3:::osiris-lumigo-example-data/*"
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "arn:aws:s3:::osiris-lumigo-example-data"
 
   SqsLambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping

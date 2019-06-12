@@ -47,17 +47,17 @@ class SqsLambda : RequestHandler<SQSEvent, Unit> {
             val message = event.records[0]
             val messageBody = gson.fromJson(message.body, MessageBody::class.java)
             log.info("Received message with ID {}, action {}", messageBody.id, messageBody.action)
-            val result = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(messageBody.id)))
-            val value = result.item.getValue(VALUE).s
             when (messageBody.action) {
-                HttpMethod.PUT -> putValue(messageBody.id, value)
+                HttpMethod.PUT -> putValue(messageBody.id)
                 HttpMethod.DELETE -> deleteValue(messageBody.id)
                 else -> throw IllegalArgumentException("Unexpected action ${messageBody.action}")
             }
         }
     }
 
-    private fun putValue(id: String, value: String) {
+    private fun putValue(id: String) {
+        val result = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(id)))
+        val value = result.item.getValue(VALUE).s
         log.debug("Writing to S3 at {}/{}, value '{}'", BUCKET_NAME, id, value)
         s3Client.putObject(BUCKET_NAME, id, value)
     }

@@ -20,6 +20,7 @@ internal const val ITEMS_TABLE: String = "LumigoExampleItems"
 internal const val ID: String = "id"
 internal const val VALUE: String = "value"
 internal const val ACTION: String = "action"
+internal const val LUMIGO_TOKEN: String = "TODO your token"
 
 /** The queue URL is a parameter in `root.template` that is passed to the generated CloudFormation file. */
 private val QUEUE_URL = System.getenv("QueueUrl")
@@ -79,7 +80,7 @@ private fun item(item: MutableMap<String, AttributeValue>) =
  * Creates the components used by the test API.
  */
 fun createComponents(): LumigoExampleComponents {
-    LumigoConfiguration.builder().lazyLoading(false).token("TODO your Lumigo token").build().init();
+    LumigoConfiguration.builder().lazyLoading(false).token(LUMIGO_TOKEN).build().init();
     return LumigoExampleComponentsImpl()
 }
 

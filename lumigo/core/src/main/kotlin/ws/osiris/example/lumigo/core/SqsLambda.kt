@@ -4,11 +4,13 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
 import com.amazonaws.services.dynamodbv2.model.AttributeValue
 import com.amazonaws.services.lambda.runtime.Context
+import com.amazonaws.services.lambda.runtime.RequestHandler
 import com.amazonaws.services.lambda.runtime.events.SQSEvent
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.google.gson.Gson
-import io.lumigo.handlers.LumigoRequestHandler
+import io.lumigo.handlers.LumigoConfiguration
+import io.lumigo.handlers.LumigoRequestExecutor
 import org.slf4j.LoggerFactory
 import ws.osiris.core.HttpMethod
 
@@ -30,22 +32,28 @@ private val BUCKET_NAME = System.getenv("BucketName")
  *
  * If the action is `DELETE` the value is deleted from S3; the ID is the key.
  */
-class SqsLambda : LumigoRequestHandler<SQSEvent, Unit>() {
+class SqsLambda : RequestHandler<SQSEvent, Unit> {
+
+    init {
+        LumigoConfiguration.builder().token(LUMIGO_TOKEN).build().init();
+    }
 
     private val gson: Gson = Gson()
     private val dynamoClient: AmazonDynamoDB = AmazonDynamoDBClientBuilder.defaultClient()
     private val s3Client: AmazonS3 = AmazonS3ClientBuilder.defaultClient()
 
-    override fun doHandleRequest(event: SQSEvent, context: Context) {
-        val message = event.records[0]
-        val messageBody = gson.fromJson(message.body, MessageBody::class.java)
-        log.info("Received message with ID {}, action {}", messageBody.id, messageBody.action)
-        val result = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(messageBody.id)))
-        val value = result.item.getValue(VALUE).s
-        when (messageBody.action) {
-            HttpMethod.PUT -> putValue(messageBody.id, value)
-            HttpMethod.DELETE -> deleteValue(messageBody.id)
-            else -> throw IllegalArgumentException("Unexpected action ${messageBody.action}")
+    override fun handleRequest(event: SQSEvent, context: Context) {
+        LumigoRequestExecutor.execute(event, context) {
+            val message = event.records[0]
+            val messageBody = gson.fromJson(message.body, MessageBody::class.java)
+            log.info("Received message with ID {}, action {}", messageBody.id, messageBody.action)
+            val result = dynamoClient.getItem(ITEMS_TABLE, mapOf(ID to AttributeValue(messageBody.id)))
+            val value = result.item.getValue(VALUE).s
+            when (messageBody.action) {
+                HttpMethod.PUT -> putValue(messageBody.id, value)
+                HttpMethod.DELETE -> deleteValue(messageBody.id)
+                else -> throw IllegalArgumentException("Unexpected action ${messageBody.action}")
+            }
         }
     }
 

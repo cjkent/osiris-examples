@@ -12,37 +12,31 @@ Resources:
               Service:
                 - lambda.amazonaws.com
             Action: sts:AssumeRole
-
-  # This policy gives the lambda code read and write permission for the DynamoDB table
-  LambdaPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      Roles:
-        - !Ref LambdaRole
-      PolicyName: LambdaPolicy
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-              - "logs:*"
-            Resource: "arn:aws:logs:*:*:*"
-          - Effect: Allow
-            Action:
-              - "dynamodb:BatchGetItem"
-              - "dynamodb:BatchWriteItem"
-              - "dynamodb:DescribeTable"
-              - "dynamodb:GetItem"
-              - "dynamodb:PutItem"
-              - "dynamodb:UpdateItem"
-              - "dynamodb:DeleteItem"
-              - "dynamodb:Query"
-              - "dynamodb:Scan"
-            Resource: !GetAtt DynamoTable.Arn
-          - Effect: Allow
-            Action:
-              - "sqs:SendMessage"
-            Resource: !GetAtt Queue.Arn
+      Policies:
+        - PolicyName: LambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:BatchWriteItem"
+                  - "dynamodb:DescribeTable"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:PutItem"
+                  - "dynamodb:UpdateItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:Query"
+                  - "dynamodb:Scan"
+                Resource: !GetAtt DynamoTable.Arn
+              - Effect: Allow
+                Action:
+                  - "sqs:SendMessage"
+                Resource: !GetAtt Queue.Arn
 
   DynamoTable:
     Type: AWS::DynamoDB::Table

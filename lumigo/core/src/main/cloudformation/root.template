@@ -12,33 +12,31 @@ Resources:
               Service:
                 - lambda.amazonaws.com
             Action: sts:AssumeRole
-
-  # This policy gives the lambda code read and write permission for the DynamoDB table
-  LambdaPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      Roles:
-        - !Ref LambdaRole
-      PolicyName: LambdaPolicy
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-              - "logs:*"
-            Resource: "arn:aws:logs:*:*:*"
-          - Effect: Allow
-            Action:
-              - "dynamodb:BatchGetItem"
-              - "dynamodb:BatchWriteItem"
-              - "dynamodb:DescribeTable"
-              - "dynamodb:GetItem"
-              - "dynamodb:PutItem"
-              - "dynamodb:UpdateItem"
-              - "dynamodb:DeleteItem"
-              - "dynamodb:Query"
-              - "dynamodb:Scan"
-            Resource: !GetAtt DynamoTable.Arn
+      Policies:
+        - PolicyName: LambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:BatchWriteItem"
+                  - "dynamodb:DescribeTable"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:PutItem"
+                  - "dynamodb:UpdateItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:Query"
+                  - "dynamodb:Scan"
+                Resource: !GetAtt DynamoTable.Arn
+              - Effect: Allow
+                Action:
+                  - "sqs:SendMessage"
+                Resource: !GetAtt Queue.Arn
 
   DynamoTable:
     Type: AWS::DynamoDB::Table
@@ -52,7 +50,12 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-      TableName: Items
+      TableName: LumigoExampleItems
+
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: osiris-lumigo-example-data
 
   # This references the generated CloudFormation file that defines the API endpoints and the lambda that handles requests
   ApiStack:
@@ -61,3 +64,82 @@ Resources:
       TemplateURL: !Sub "https://${codeS3Bucket}.s3.amazonaws.com/osiris-lumigo-example.template"
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn
+        QueueUrl: !Ref Queue
+
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: lumigoExampleQueue
+      DelaySeconds: 0
+      VisibilityTimeout: 120
+
+  # -----------------------------------------------------------------------------------
+
+  # The SQS lambda
+  SqsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: osiris-lumigo-example-sqs
+      Handler: ws.osiris.example.lumigo.core.SqsLambda
+      Runtime: java8
+      MemorySize: 1024
+      Timeout: 60
+      Environment:
+        Variables:
+          BucketName: osiris-lumigo-example-data
+      Code:
+        S3Bucket: ${codeS3Bucket}
+        S3Key: ${codeS3Key}
+      Role: !GetAtt SqsLambdaRole.Arn
+
+  SqsLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SqsLambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:DescribeTable"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:Query"
+                  - "dynamodb:Scan"
+                Resource: !GetAtt DynamoTable.Arn
+              - Effect: Allow
+                Action:
+                  - "sqs:ReceiveMessage"
+                  - "sqs:DeleteMessage"
+                  - "sqs:GetQueueAttributes"
+                Resource: !GetAtt Queue.Arn
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "arn:aws:s3:::osiris-lumigo-example-data/*"
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "arn:aws:s3:::osiris-lumigo-example-data"
+
+  SqsLambdaEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt Queue.Arn
+      FunctionName: !GetAtt SqsFunction.Arn

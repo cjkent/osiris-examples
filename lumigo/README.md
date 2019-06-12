@@ -7,7 +7,7 @@ A filter is defined in `ApiDefinition.kt` that is applied to all requests. The f
 In order to deploy the project you need to:
 
 * Get a Lumigo account (https://lumigo.io)
-* Update the environment variable `LUMIGO_TRACER_TOKEN` in `Config.kt` with your token
+* Update the variable `LUMIGO_TOKEN` in `ApiDefinition.kt` with your token
 
 ## Making Requests
 In order to see the project working you will need to make some POST requests. The easiest way to do this is to use `curl` in a terminal or to use [Postman](https://www.getpostman.com/).

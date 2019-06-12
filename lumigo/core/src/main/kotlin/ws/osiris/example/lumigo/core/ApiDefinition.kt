@@ -21,9 +21,6 @@ internal const val ID: String = "id"
 internal const val VALUE: String = "value"
 internal const val ACTION: String = "action"
 
-/** The bucket name is a parameter in `root.template` that is passed to the generated CloudFormation file. */
-internal val BUCKET_NAME = System.getenv("BucketName")
-
 /** The queue URL is a parameter in `root.template` that is passed to the generated CloudFormation file. */
 private val QUEUE_URL = System.getenv("QueueUrl")
 

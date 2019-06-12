@@ -65,7 +65,6 @@ Resources:
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn
         QueueUrl: !Ref Queue
-        BucketName: osiris-lumigo-example-data
 
   Queue:
     Type: AWS::SQS::Queue
@@ -87,7 +86,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          LUMIGO_DEBUG: "true"
+          BucketName: osiris-lumigo-example-data
       Code:
         S3Bucket: ${codeS3Bucket}
         S3Key: ${codeS3Key}

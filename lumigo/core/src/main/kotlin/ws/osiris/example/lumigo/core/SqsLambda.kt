@@ -12,7 +12,10 @@ import io.lumigo.handlers.LumigoRequestHandler
 import org.slf4j.LoggerFactory
 import ws.osiris.core.HttpMethod
 
-private val log = LoggerFactory.getLogger("ws.osiris.example.lumigo.core")
+internal val log = LoggerFactory.getLogger("ws.osiris.example.lumigo.core")
+
+/** The bucket name is a parameter in `root.template` that is passed to the generated CloudFormation file. */
+private val BUCKET_NAME = System.getenv("BucketName")
 
 /**
  * Lambda function that receives SQS messages and writes or deletes values from S3.

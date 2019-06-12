@@ -99,35 +99,6 @@ Resources:
         S3Key: ${codeS3Key}
       Role: !GetAtt SqsLambdaRole.Arn
 
-  SqsLambdaPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      Roles:
-        - !Ref SqsLambdaRole
-      PolicyName: SqsLambdaPolicy
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-              - "logs:*"
-            Resource: "arn:aws:logs:*:*:*"
-          - Effect: Allow
-            Action:
-              - "dynamodb:BatchGetItem"
-              - "dynamodb:DescribeTable"
-              - "dynamodb:GetItem"
-              - "dynamodb:DeleteItem"
-              - "dynamodb:Query"
-              - "dynamodb:Scan"
-            Resource: !GetAtt DynamoTable.Arn
-          - Effect: Allow
-            Action:
-              - "sqs:ReceiveMessage"
-              - "sqs:DeleteMessage"
-              - "sqs:GetQueueAttributes"
-            Resource: !GetAtt Queue.Arn
-
   SqsLambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -139,6 +110,30 @@ Resources:
               Service:
                 - lambda.amazonaws.com
             Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SqsLambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:DescribeTable"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:Query"
+                  - "dynamodb:Scan"
+                Resource: !GetAtt DynamoTable.Arn
+              - Effect: Allow
+                Action:
+                  - "sqs:ReceiveMessage"
+                  - "sqs:DeleteMessage"
+                  - "sqs:GetQueueAttributes"
+                Resource: !GetAtt Queue.Arn
 
   SqsLambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping

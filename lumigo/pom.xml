@@ -5,12 +5,12 @@
 
     <groupId>ws.osiris.example</groupId>
     <artifactId>osiris-lumigo-example</artifactId>
-    <version>0.15.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
         <kotlin.version>1.3.31</kotlin.version>
-        <osiris.version>0.15.0</osiris.version>
+        <osiris.version>1.0.0</osiris.version>
         <lumigo.version>1.0.19</lumigo.version>
     </properties>
 

@@ -14,7 +14,7 @@ import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
 import ws.osiris.core.HttpMethod
 import ws.osiris.core.api
-import java.util.*
+import java.util.UUID
 
 internal const val ITEMS_TABLE: String = "LumigoExampleItems"
 internal const val ID: String = "id"
@@ -80,7 +80,7 @@ private fun item(item: MutableMap<String, AttributeValue>) =
  * Creates the components used by the test API.
  */
 fun createComponents(): LumigoExampleComponents {
-    LumigoConfiguration.builder().lazyLoading(false).token(LUMIGO_TOKEN).build().init();
+    LumigoConfiguration.builder().lazyLoading(false).token(LUMIGO_TOKEN).build().init()
     return LumigoExampleComponentsImpl()
 }
 

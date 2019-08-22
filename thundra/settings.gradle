@@ -1,0 +1,6 @@
+rootProject.name = 'osiris-thundra-example'
+include ':osiris-thundra-example-core'
+include ':osiris-thundra-example-local-server'
+
+project(':osiris-thundra-example-core').projectDir = "$rootDir/core" as File
+project(':osiris-thundra-example-local-server').projectDir = "$rootDir/local-server" as File

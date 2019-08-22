@@ -1,0 +1,22 @@
+apply plugin: 'ws.osiris.deploy'
+
+ext {
+    awsSdkVersion = '1.11.258'
+    gsonVersion = '2.8.2'
+}
+
+dependencies {
+    compile group: 'ws.osiris', name: 'osiris-core', version: "$osirisVersion"
+    compile group: 'ws.osiris', name: 'osiris-aws', version: "$osirisVersion"
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: "$kotlinVersion"
+    compile group: 'com.google.code.gson', name: 'gson', version: "$gsonVersion"
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: "$kotlinVersion"
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: "$awsSdkVersion"
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: "$awsSdkVersion"
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-sns', version: "$awsSdkVersion"
+    compile group: 'io.thundra.agent', name: 'thundra-agent-lambda-all', version: "$thundraVersion"
+}
+
+osiris {
+    rootPackage = 'ws.osiriss.example.thundra.core'
+}

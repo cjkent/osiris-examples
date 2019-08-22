@@ -1,0 +1,34 @@
+subprojects {
+    apply plugin: 'kotlin'
+
+    repositories {
+        jcenter()
+    }
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = '1.8'
+        }
+    }
+}
+
+ext {
+    kotlinVersion = '1.2.30'
+    osirisVersion = '0.9.1'
+    thundraVersion = '2.3.12'
+}
+
+buildscript {
+    ext {
+        kotlinVersion = '1.2.30'
+        osirisVersion = '0.9.1'
+    }
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "ws.osiris:osiris-gradle-plugin:$osirisVersion"
+    }
+}

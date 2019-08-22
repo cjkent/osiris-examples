@@ -1,0 +1,207 @@
+Resources:
+
+  # This role is used by the lambda defined in ApiStack. It needs permission to access the DynamoDB table
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:BatchWriteItem"
+                  - "dynamodb:DescribeTable"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:PutItem"
+                  - "dynamodb:UpdateItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:Query"
+                  - "dynamodb:Scan"
+                Resource: !GetAtt DynamoTable.Arn
+              - Effect: Allow
+                Action:
+                  - "sqs:SendMessage"
+                Resource: !GetAtt Queue.Arn
+
+  DynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: ThundraExampleItems
+
+  Bucket:
+    Type: AWS::S3::Bucket
+    DependsOn: PermissionForS3ToInvokeLambda
+    Properties:
+      BucketName: osiris-thundra-example-data
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: 's3:ObjectCreated:*'
+            Function: !GetAtt S3Function.Arn
+          - Event: 's3:ObjectRemoved:*'
+            Function: !GetAtt S3Function.Arn
+  PermissionForS3ToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt S3Function.Arn
+      Principal: s3.amazonaws.com
+      SourceArn: arn:aws:s3:::osiris-thundra-example-data
+
+  # This references the generated CloudFormation file that defines the API endpoints and the lambda that handles requests
+  ApiStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://${codeS3Bucket}.s3.amazonaws.com/osiris-thundra-example.template"
+      Parameters:
+        LambdaRole: !GetAtt LambdaRole.Arn
+        QueueUrl: !Ref Queue
+
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: thundraExampleQueue
+      DelaySeconds: 0
+      VisibilityTimeout: 120
+
+  Topic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: thundraExampleTopic
+
+  # -----------------------------------------------------------------------------------
+
+  # The SQS lambda
+  SqsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: osiris-thundra-example-sqs
+      Handler: ws.osiris.example.thundra.core.SqsLambda
+      Runtime: java8
+      MemorySize: 1024
+      Timeout: 60
+      Environment:
+        Variables:
+          BucketName: osiris-thundra-example-data
+      Code:
+        S3Bucket: ${codeS3Bucket}
+        S3Key: ${codeS3Key}
+      Role: !GetAtt SqsLambdaRole.Arn
+
+  SqsLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SqsLambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:DescribeTable"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:Query"
+                  - "dynamodb:Scan"
+                Resource: !GetAtt DynamoTable.Arn
+              - Effect: Allow
+                Action:
+                  - "sqs:ReceiveMessage"
+                  - "sqs:DeleteMessage"
+                  - "sqs:GetQueueAttributes"
+                Resource: !GetAtt Queue.Arn
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "arn:aws:s3:::osiris-thundra-example-data/*"
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "arn:aws:s3:::osiris-thundra-example-data"
+
+  SqsLambdaEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt Queue.Arn
+      FunctionName: !GetAtt SqsFunction.Arn
+
+  # The S3 lambda
+  S3Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: osiris-thundra-example-s3
+      Handler: io.thundra.agent.lambda.core.handler.ThundraLambdaHandler
+      Runtime: java8
+      MemorySize: 1024
+      Timeout: 60
+      Environment:
+        Variables:
+          TopicArn: !Ref Topic
+          thundra_agent_lambda_handler: ws.osiris.example.thundra.core.S3Lambda
+      Code:
+        S3Bucket: ${codeS3Bucket}
+        S3Key: ${codeS3Key}
+      Role: !GetAtt S3LambdaRole.Arn
+
+  S3LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3LambdaPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action:
+                  - "sns:Publish"
+                Resource: !Ref Topic

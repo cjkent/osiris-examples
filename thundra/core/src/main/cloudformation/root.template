@@ -56,7 +56,7 @@ Resources:
     Type: AWS::S3::Bucket
     DependsOn: PermissionForS3ToInvokeLambda
     Properties:
-      BucketName: osiris-thundra-example-data
+      BucketName: !Sub "osiris-thundra-example-data-${AWS::AccountId}"
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: 's3:ObjectCreated:*'
@@ -69,7 +69,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt S3Function.Arn
       Principal: s3.amazonaws.com
-      SourceArn: arn:aws:s3:::osiris-thundra-example-data
+      SourceArn: !Sub "arn:aws:s3:::osiris-thundra-example-data-${AWS::AccountId}"
 
   # This references the generated CloudFormation file that defines the API endpoints and the lambda that handles requests
   ApiStack:
@@ -105,7 +105,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          BucketName: osiris-thundra-example-data
+          BucketName: !Sub "osiris-thundra-example-data-${AWS::AccountId}"
       Code:
         S3Bucket: ${codeS3Bucket}
         S3Key: ${codeS3Key}
@@ -149,11 +149,11 @@ Resources:
               - Effect: Allow
                 Action:
                   - "s3:*"
-                Resource: "arn:aws:s3:::osiris-thundra-example-data/*"
+                Resource: !Sub "arn:aws:s3:::osiris-thundra-example-data-${AWS::AccountId}/*"
               - Effect: Allow
                 Action:
                   - "s3:*"
-                Resource: "arn:aws:s3:::osiris-thundra-example-data"
+                Resource: !Sub "arn:aws:s3:::osiris-thundra-example-data-${AWS::AccountId}"
 
   SqsLambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping

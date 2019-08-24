@@ -6,7 +6,7 @@
     <parent>
         <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-custom-auth-example2</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-custom-auth-example2-core</artifactId>

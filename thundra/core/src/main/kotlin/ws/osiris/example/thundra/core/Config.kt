@@ -19,6 +19,5 @@ val config = ApplicationConfig(
             description = "Development stage",
             deployOnUpdate = true
         )
-    ),
-    bucketSuffix = "osiris-thundra-example"
+    )
 )

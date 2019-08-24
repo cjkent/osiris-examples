@@ -55,7 +55,7 @@ Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: osiris-lumigo-example-data
+      BucketName: !Sub "osiris-lumigo-example-data-${AWS::AccountId}"
 
   # This references the generated CloudFormation file that defines the API endpoints and the lambda that handles requests
   ApiStack:
@@ -86,7 +86,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          BucketName: osiris-lumigo-example-data
+          BucketName: !Sub "osiris-lumigo-example-data-${AWS::AccountId}"
       Code:
         S3Bucket: ${codeS3Bucket}
         S3Key: ${codeS3Key}
@@ -130,11 +130,11 @@ Resources:
               - Effect: Allow
                 Action:
                   - "s3:*"
-                Resource: "arn:aws:s3:::osiris-lumigo-example-data/*"
+                Resource: !Sub "arn:aws:s3:::osiris-lumigo-example-data-${AWS::AccountId}/*"
               - Effect: Allow
                 Action:
                   - "s3:*"
-                Resource: "arn:aws:s3:::osiris-lumigo-example-data"
+                Resource: !Sub "arn:aws:s3:::osiris-lumigo-example-data-${AWS::AccountId}"
 
   SqsLambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping

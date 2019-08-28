@@ -4,11 +4,11 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
 import com.amazonaws.services.dynamodbv2.model.AttributeValue
 import com.amazonaws.services.lambda.runtime.Context
+import com.amazonaws.services.lambda.runtime.RequestHandler
 import com.amazonaws.services.lambda.runtime.events.SQSEvent
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.google.gson.Gson
-import io.thundra.agent.lambda.core.handler.request.LambdaRequestHandler
 import ws.osiris.core.HttpMethod
 
 /** The bucket name is a parameter in `root.template` that is passed to the generated CloudFormation file. */
@@ -27,13 +27,13 @@ private val BUCKET_NAME = System.getenv("BucketName")
  *
  * If the action is `DELETE` the value is deleted from S3; the ID is the key.
  */
-class SqsLambda : LambdaRequestHandler<SQSEvent, Unit> {
+class SqsLambda : RequestHandler<SQSEvent, Unit> {
 
     private val gson: Gson = Gson()
     private val dynamoClient: AmazonDynamoDB = AmazonDynamoDBClientBuilder.defaultClient()
     private val s3Client: AmazonS3 = AmazonS3ClientBuilder.defaultClient()
 
-    override fun doHandleRequest(event: SQSEvent, context: Context) {
+    override fun handleRequest(event: SQSEvent, context: Context) {
         val message = event.records[0]
         val messageBody = gson.fromJson(message.body, MessageBody::class.java)
         context.logger.log(String.format("Received message with ID %s, action %s", messageBody.id, messageBody.action))

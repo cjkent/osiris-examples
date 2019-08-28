@@ -6,10 +6,6 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue
 import com.amazonaws.services.sqs.AmazonSQS
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder
 import com.google.gson.Gson
-import io.thundra.agent.lambda.core.LambdaSupport
-import io.thundra.agent.lambda.core.handler.request.LambdaRequestHandlerExecutor
-import ws.osiris.aws.lambdaContext
-import ws.osiris.aws.lambdaEvent
 import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
 import ws.osiris.core.HttpMethod
@@ -26,12 +22,6 @@ private val QUEUE_URL = System.getenv("QueueUrl")
 
 /** The API. */
 val api = api<ThundraExampleComponents> {
-
-    filter { req, handler ->
-        LambdaRequestHandlerExecutor.execute(req.lambdaEvent, req.lambdaContext) {
-            handler(req)
-        }
-    }
 
     get("/values") {
         val items = dynamoClient.scan(ITEMS_TABLE, listOf(ID, VALUE)).items
@@ -80,7 +70,7 @@ private fun item(item: MutableMap<String, AttributeValue>) =
  * Creates the components used by the test API.
  */
 fun createComponents(): ThundraExampleComponents {
-    LambdaSupport.initialize();
+//    LambdaSupport.initialize();
     return ThundraExampleComponentsImpl()
 }
 

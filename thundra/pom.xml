@@ -10,7 +10,7 @@
 
     <properties>
         <kotlin.version>1.3.31</kotlin.version>
-        <osiris.version>1.1.0</osiris.version>
+        <osiris.version>1.2.0-SNAPSHOT</osiris.version>
         <thundra.version>2.3.12</thundra.version>
     </properties>
 
@@ -32,12 +32,6 @@
                 <groupId>ws.osiris.example</groupId>
                 <artifactId>osiris-thundra-example-core</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.thundra.agent</groupId>
-                <artifactId>thundra-agent-lambda-all</artifactId>
-                <type>pom</type>
-                <version>${thundra.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -88,13 +82,5 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <repositories>
-        <repository>
-            <id>thundra-releases</id>
-            <name>Thundra Releases</name>
-            <url>http://repo.thundra.io/content/repositories/thundra-releases</url>
-        </repository>
-    </repositories>
 
 </project>

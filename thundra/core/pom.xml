@@ -45,11 +45,6 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sns</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.thundra.agent</groupId>
-            <artifactId>thundra-agent-lambda-all</artifactId>
-            <type>pom</type>
-        </dependency>
     </dependencies>
 
     <build>

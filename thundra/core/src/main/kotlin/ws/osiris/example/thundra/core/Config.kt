@@ -1,6 +1,7 @@
 package ws.osiris.example.thundra.core
 
 import ws.osiris.aws.ApplicationConfig
+import ws.osiris.aws.LambdaRuntime
 import ws.osiris.aws.Stage
 import java.time.Duration
 
@@ -12,7 +13,11 @@ val config = ApplicationConfig(
     lambdaName = "osiris-thundra-example",
     lambdaMemorySizeMb = 1024,
     lambdaTimeout = Duration.ofMinutes(1),
+    runtime = LambdaRuntime.Provided,
     keepAliveCount = 1,
+    layers = listOf(
+        "arn:aws:lambda:eu-west-1:269863060030:layer:thundra-lambda-java-layer:26"
+    ),
     stages = listOf(
         Stage(
             name = "dev",

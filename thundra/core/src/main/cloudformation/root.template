@@ -100,8 +100,9 @@ Resources:
     Properties:
       FunctionName: osiris-thundra-example-sqs
       Handler: ws.osiris.example.thundra.core.SqsLambda
-      Runtime: java8
-      MemorySize: 1024
+      Runtime: provided
+      Layers:
+        - !Sub "arn:aws:lambda:${AWS::Region}:269863060030:layer:thundra-lambda-java-layer:26"      MemorySize: 1024
       Timeout: 60
       Environment:
         Variables:
@@ -169,7 +170,9 @@ Resources:
     Properties:
       FunctionName: osiris-thundra-example-s3
       Handler: io.thundra.agent.lambda.core.handler.ThundraLambdaHandler
-      Runtime: java8
+      Runtime: provided
+      Layers:
+        - !Sub "arn:aws:lambda:${AWS::Region}:269863060030:layer:thundra-lambda-java-layer:26"
       MemorySize: 1024
       Timeout: 60
       Environment:

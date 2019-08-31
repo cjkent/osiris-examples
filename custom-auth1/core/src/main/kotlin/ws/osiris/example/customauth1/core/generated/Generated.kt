@@ -15,7 +15,7 @@ import ws.osiris.example.customauth1.core.createComponents
  * This is generated code and should not be modified or deleted.
  */
 @Suppress("UNCHECKED_CAST", "unused")
-class GeneratedLambda : ProxyLambda<ComponentsProvider>(api as Api<ComponentsProvider>, createComponents())
+class GeneratedLambda : ProxyLambda<ComponentsProvider>(api, createComponents())
 
 /**
  * Creates the API and application configuration; used by the build plugins during deployment.

@@ -70,7 +70,6 @@ private fun item(item: MutableMap<String, AttributeValue>) =
  * Creates the components used by the test API.
  */
 fun createComponents(): ThundraExampleComponents {
-//    LambdaSupport.initialize();
     return ThundraExampleComponentsImpl()
 }
 

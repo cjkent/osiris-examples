@@ -16,7 +16,7 @@ val config = ApplicationConfig(
     runtime = LambdaRuntime.Provided,
     keepAliveCount = 1,
     layers = listOf(
-        "arn:aws:lambda:eu-west-1:269863060030:layer:thundra-lambda-java-layer:26"
+        "arn:aws:lambda:\${AWS::Region}:269863060030:layer:thundra-lambda-java-layer:26"
     ),
     stages = listOf(
         Stage(

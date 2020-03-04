@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+  <title>CORS test</title>
+  <script lang="JavaScript">
+
+    function makeRequest(method) {
+      // TODO use fetch instead of XMLHttpRequest
+      const req = new XMLHttpRequest();
+      req.open(method, 'https://b2sjfchyn3.execute-api.eu-west-1.amazonaws.com/dev/helloplain');
+      req.setRequestHeader('Content-Type', 'text/plain');
+      // req.setRequestHeader('Content-Type', 'application/json');
+      req.send();
+      req.onreadystatechange = (evt) => {
+        if (req.readyState === 4) {
+          if (req.status === 200) {
+            document.getElementById('msg').innerText = req.responseText
+          } else {
+            console.log("something went wrong", req, evt);
+          }
+        }
+      }
+    }
+
+  </script>
+</head>
+<body>
+<div id="msg">response goes here</div>
+<input type="button" value="get" onclick="makeRequest('GET')"/>
+<input type="button" value="post" onclick="makeRequest('POST')"/>
+</body>
+</html>

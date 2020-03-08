@@ -5,8 +5,9 @@
 
     function getRequest() {
       fetch('https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/foo')
-          .then((response) => response.ok ? response.json() : response.text())
-          .then((data) => document.getElementById('msg').innerText = data);
+          .then((response) => response.text())
+          .then((data) => document.getElementById('msg').innerText = data)
+          .catch((ex) => document.getElementById('msg').innerText = ex.message);
     }
 
     function postRequest() {
@@ -19,8 +20,9 @@
         }
       };
       fetch(url, init)
-          .then((response) => response.ok ? response.json() : response.text())
-          .then((data) => document.getElementById('msg').innerText = data);
+          .then((response) => response.text())
+          .then((data) => document.getElementById('msg').innerText = data)
+          .catch((ex) => document.getElementById('msg').innerText = ex.message);
     }
 
   </script>

@@ -3,29 +3,31 @@
   <title>CORS test</title>
   <script lang="JavaScript">
 
-    function makeRequest(method) {
-      // TODO use fetch instead of XMLHttpRequest
-      const req = new XMLHttpRequest();
-      req.open(method, 'https://b2sjfchyn3.execute-api.eu-west-1.amazonaws.com/dev/helloplain');
-      req.setRequestHeader('Content-Type', 'text/plain');
-      // req.setRequestHeader('Content-Type', 'application/json');
-      req.send();
-      req.onreadystatechange = (evt) => {
-        if (req.readyState === 4) {
-          if (req.status === 200) {
-            document.getElementById('msg').innerText = req.responseText
-          } else {
-            console.log("something went wrong", req, evt);
-          }
+    function getRequest() {
+      fetch('https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/foo')
+          .then((response) => response.ok ? response.json() : response.text())
+          .then((data) => document.getElementById('msg').innerText = data);
+    }
+
+    function postRequest() {
+      const url = 'https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/bar';
+      const init = {
+        method: 'POST',
+        body: JSON.stringify({'foo': 123}),
+        headers: {
+          'Content-Type': 'application/json' // this ensures it's a non-simple request
         }
-      }
+      };
+      fetch(url, init)
+          .then((response) => response.ok ? response.json() : response.text())
+          .then((data) => document.getElementById('msg').innerText = data);
     }
 
   </script>
 </head>
 <body>
 <div id="msg">response goes here</div>
-<input type="button" value="get" onclick="makeRequest('GET')"/>
-<input type="button" value="post" onclick="makeRequest('POST')"/>
+<input type="button" value="get" onclick="getRequest()"/>
+<input type="button" value="post" onclick="postRequest()"/>
 </body>
 </html>

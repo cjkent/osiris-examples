@@ -15,11 +15,15 @@ val api = api<ComponentsProvider>(cors = true) {
     }
 
     get("/foo") {
-        mapOf("message" to "hello, world!")
+        mapOf("message" to "hello, foo!")
     }
 
     post("/bar") {
-        mapOf("message" to "hello, world!")
+        mapOf("message" to "hello, bar!")
+    }
+
+    get("/baz", cors = false) {
+        mapOf("message" to "hello, baz!")
     }
 }
 

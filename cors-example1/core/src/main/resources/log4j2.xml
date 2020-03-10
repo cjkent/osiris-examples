@@ -13,5 +13,6 @@
         </Root>
         <Logger name="ws.osiris" level="info"/>
         <Logger name="ws.osiris.example.cors1" level="info"/>
+        <Logger name="ws.osiris.aws" level="debug"/>
     </Loggers>
 </Configuration>

@@ -4,6 +4,7 @@
   <script lang="JavaScript">
 
     function getRequest() {
+      document.getElementById('msg').innerText = "request sent";
       fetch('https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/foo')
           .then((response) => response.text())
           .then((data) => document.getElementById('msg').innerText = data)
@@ -11,6 +12,7 @@
     }
 
     function postRequest() {
+      document.getElementById('msg').innerText = "request sent";
       const url = 'https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/bar';
       const init = {
         method: 'POST',

@@ -3,35 +3,47 @@
   <title>CORS test</title>
   <script lang="JavaScript">
 
-    function getRequest() {
-      document.getElementById('msg').innerText = "request sent";
-      fetch('https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/foo')
+    const apiId = 'TODO - your API ID';
+    const region = 'TODO - your API region';
+
+    function simpleRequest() {
+      document.getElementById('simpleMsg').innerText = "Request sent";
+      fetch(`https://${apiId}.execute-api.${region}.amazonaws.com/dev/foo`)
           .then((response) => response.text())
-          .then((data) => document.getElementById('msg').innerText = data)
-          .catch((ex) => document.getElementById('msg').innerText = ex.message);
+          .then((data) => document.getElementById('simpleMsg').innerText = data)
+          .catch((ex) => document.getElementById('simpleMsg').innerText = ex.message);
     }
 
-    function postRequest() {
-      document.getElementById('msg').innerText = "request sent";
-      const url = 'https://urqicvtzz1.execute-api.eu-west-1.amazonaws.com/dev/bar';
+    function nonSimpleRequest() {
+      document.getElementById('nonSimpleMsg').innerText = "Request sent";
+      const url = `https://${apiId}.execute-api.${region}.amazonaws.com/dev/bar`;
       const init = {
         method: 'POST',
-        body: JSON.stringify({'foo': 123}),
+        body: JSON.stringify({'name': document.getElementById('nameField').value}),
         headers: {
           'Content-Type': 'application/json' // this ensures it's a non-simple request
         }
       };
       fetch(url, init)
           .then((response) => response.text())
-          .then((data) => document.getElementById('msg').innerText = data)
-          .catch((ex) => document.getElementById('msg').innerText = ex.message);
+          .then((data) => document.getElementById('nonSimpleMsg').innerText = data)
+          .catch((ex) => document.getElementById('nonSimpleMsg').innerText = ex.message);
     }
 
   </script>
 </head>
 <body>
-<div id="msg">response goes here</div>
-<input type="button" value="get" onclick="getRequest()"/>
-<input type="button" value="post" onclick="postRequest()"/>
+<div>
+  <input type="button" value="Simple Request" onclick="simpleRequest()"/>
+</div>
+<div id="simpleMsg"></div>
+<div style="margin-top: 30px;">
+  <label for="nameField">Name</label>
+  <input id="nameField" type="text" value="Bob"/>
+</div>
+<div>
+  <input type="button" value="Non-simple Request" onclick="nonSimpleRequest()"/>
+</div>
+<div id="nonSimpleMsg"></div>
 </body>
 </html>

@@ -6,6 +6,14 @@
     const apiId = 'TODO - your API ID';
     const region = 'TODO - your API region';
 
+    /**
+     * This makes a so-called simple CORS request.
+     *
+     * This means that the browser only makes one request, and the response must include the
+     * header `Access-Control-Allow-Origin` with a value allowing a request from this script's origin.
+     *
+     * In this case the header value will be `*` which allows requests from any origin.
+     */
     function simpleRequest() {
       document.getElementById('simpleMsg').innerText = "Request sent";
       fetch(`https://${apiId}.execute-api.${region}.amazonaws.com/dev/foo`)
@@ -14,6 +22,19 @@
           .catch((ex) => document.getElementById('simpleMsg').innerText = ex.message);
     }
 
+    /**
+     * This makes a so-called non-simple CORS request; the fact that the `Content-Type` is
+     * `application/json` means that the browser considers it a non-simple request.
+     *
+     * This means that the browser makes two requests. The first request is to the ORIGIN method of
+     * the request URL.
+     *
+     * The response must include the header `Access-Control-Allow-Origin` with a value
+     * allowing a request from this script's origin.
+     *
+     * It must also include `Access-Control-Allow-Method` (with a value including `POST`) and
+     * `Access-Control-Allow-Headers` with a value including `Content-Type`.
+     */
     function nonSimpleRequest() {
       document.getElementById('nonSimpleMsg').innerText = "Request sent";
       const url = `https://${apiId}.execute-api.${region}.amazonaws.com/dev/bar`;

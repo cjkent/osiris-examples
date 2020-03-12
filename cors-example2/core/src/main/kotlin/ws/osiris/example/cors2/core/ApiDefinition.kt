@@ -1,73 +1,96 @@
 package ws.osiris.example.cors2.core
 
-import ws.osiris.core.MimeTypes
+import com.google.gson.Gson
 import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
+import ws.osiris.core.HttpMethod
 import ws.osiris.core.api
 
 /**
- * The name of an environment variable used to pass in configuration.
+ * An API that allows Cross-Origin Resource Sharing (CORS).
  *
- * The values of environment variables can be specified by the `environmentVariables` property in the configuration:
+ * See here for a detailed explanation of CORS:
  *
- *     val config = ApplicationConfig(
- *         environmentVariables = mapOf(
- *             "EXAMPLE_ENVIRONMENT_VARIABLE" to "Bob"
- *         )
- *         ...
- *     )
+ *     https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+ *
+ * This allows a browser script to make a request to an origin that is not the same as the origin
+ * from which its page was downloaded.
+ *
+ * For example, a script in a page downloaded from `www.example.com` would not normally be allowed
+ * to make a request to `api.example.com`. If the API at `api.example.com` uses CORS then it can
+ * tell the browser that the script should be allowed to make the request.
+ *
+ * The `cors` flag in the API is `true` so all endpoints will be CORS-enabled unless the endpoint itself
+ * specifies `cors = false`.
  */
-const val EXAMPLE_ENVIRONMENT_VARIABLE = "EXAMPLE_ENVIRONMENT_VARIABLE"
+val api = api<CorsExample2Components>(cors = true) {
 
-/** The API. */
-val api = api<ExampleComponents> {
-
-    get("/helloworld") {
-        // return a map that is automatically converted to JSON
-        mapOf("message" to "hello, world!")
+    /**
+     * Generates the CORS headers for any CORS-enabled endpoint.
+     *
+     * The request is passed to the block in case the CORS headers need to be different for different
+     * endpoints. In this case the request isn't used and the same headers are returned for all
+     * CORS endpoints.
+     */
+    cors { req ->
+        allowMethods = setOf(HttpMethod.GET, HttpMethod.POST)
+        allowOrigin = setOf("*")
+        allowHeaders = setOf(HttpHeaders.CONTENT_TYPE)
     }
 
-    get("/helloplain") { req ->
-        // return a response with customised headers
-        req.responseBuilder()
-            .header(HttpHeaders.CONTENT_TYPE, MimeTypes.TEXT_PLAIN)
-            .build("hello, world!")
+    /**
+     * A request to this endpoint will be a so-called simple CORS request.
+     *
+     * The response to a simple CORS request must include the header `Access-Control-Allow-Origin`
+     * with a value including the origin of the calling script.
+     *
+     * This is set by setting the value of the `allowOrigin` property in the `cors` block.
+     */
+    get("/foo") {
+        mapOf("message" to "hello, foo!")
     }
 
-    get("/helloqueryparam") { req ->
-        // get a query parameter
-        val name = req.queryParams["name"]
+    /**
+     * This endpoint will be called with a `Content-Type` header of `application/json`; this means it
+     * it a so-called non-simple request.
+     *
+     * The browser will make a "pre-flight" request to the OPTIONS method for this path. The response
+     * must contain the headers:
+     *
+     *   * `Access-Control-Allow-Origin`
+     *   * `Access-Control-Allow-Methods`
+     *   * `Access-Control-Allow-Headers`
+     *
+     * These are specified by setting the properties in the `cors` block.
+     */
+    post("/bar") { req ->
+        val json = req.body<String>()
+        val bodyMap = gson.fromJson(json, Map::class.java)
+        val name = bodyMap["name"]
         mapOf("message" to "hello, $name!")
     }
 
-    get("/helloenv") {
-        // use the name property from ExampleComponents for the name
-        mapOf("message" to "hello, $name!")
-    }
-
-    get("/hello/{name}") { req ->
-        // get a path parameter
-        val name = req.pathParams["name"]
-        mapOf("message" to "hello, $name!")
+    /**
+     * This endpoint is not CORS-enabled so it cannot be called from a script in a page that was not
+     * loaded from the same origin as the API.
+     */
+    get("/baz", cors = false) {
+        mapOf("message" to "hello, baz!")
     }
 }
 
 /**
- * Creates the components used by the example API.
+ * Creates the components used by the API.
  */
-fun createComponents(): ExampleComponents = ExampleComponentsImpl()
+fun createComponents(): CorsExample2Components = CorsExample2ComponentsImpl()
 
 /**
- * A trivial set of components that exposes a simple property to the request handling code in the API definition.
+ * Simple components that only provides a [Gson] instance.
  */
-interface ExampleComponents : ComponentsProvider {
-    val name: String
+interface CorsExample2Components : ComponentsProvider {
+    val gson: Gson
 }
 
-/**
- * An implementation of `ExampleComponents` that uses an environment variable to populate its data.
- */
-class ExampleComponentsImpl : ExampleComponents {
-    override val name: String = System.getenv(EXAMPLE_ENVIRONMENT_VARIABLE) ?:
-        "[Environment variable EXAMPLE_ENVIRONMENT_VARIABLE not set]"
+internal class CorsExample2ComponentsImpl : CorsExample2Components {
+    override val gson: Gson = Gson()
 }

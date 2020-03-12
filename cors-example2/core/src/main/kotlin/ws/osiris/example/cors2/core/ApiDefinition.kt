@@ -20,10 +20,10 @@ import ws.osiris.core.api
  * to make a request to `api.example.com`. If the API at `api.example.com` uses CORS then it can
  * tell the browser that the script should be allowed to make the request.
  *
- * The `cors` flag in the API is `true` so all endpoints will be CORS-enabled unless the endpoint itself
- * specifies `cors = false`.
+ * The `cors` flag in the API is `false` so endpoints will on be CORS-enabled if the endpoint itself
+ * specifies `cors = true`.
  */
-val api = api<CorsExample2Components>(cors = true) {
+val api = api<CorsExample2Components> {
 
     /**
      * Generates the CORS headers for any CORS-enabled endpoint.
@@ -46,7 +46,7 @@ val api = api<CorsExample2Components>(cors = true) {
      *
      * This is set by setting the value of the `allowOrigin` property in the `cors` block.
      */
-    get("/foo") {
+    get("/foo", cors = true) {
         mapOf("message" to "hello, foo!")
     }
 
@@ -63,7 +63,7 @@ val api = api<CorsExample2Components>(cors = true) {
      *
      * These are specified by setting the properties in the `cors` block.
      */
-    post("/bar") { req ->
+    post("/bar", cors = true) { req ->
         val json = req.body<String>()
         val bodyMap = gson.fromJson(json, Map::class.java)
         val name = bodyMap["name"]
@@ -74,7 +74,7 @@ val api = api<CorsExample2Components>(cors = true) {
      * This endpoint is not CORS-enabled so it cannot be called from a script in a page that was not
      * loaded from the same origin as the API.
      */
-    get("/baz", cors = false) {
+    get("/baz") {
         mapOf("message" to "hello, baz!")
     }
 }

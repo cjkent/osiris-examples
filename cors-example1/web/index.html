@@ -26,7 +26,7 @@
      * This makes a so-called non-simple CORS request; the fact that the `Content-Type` is
      * `application/json` means that the browser considers it a non-simple request.
      *
-     * This means that the browser makes two requests. The first request is to the ORIGIN method of
+     * This means that the browser makes two requests. The first request is to the `OPTIONS` method of
      * the request URL.
      *
      * The response must include the header `Access-Control-Allow-Origin` with a value
@@ -34,6 +34,9 @@
      *
      * It must also include `Access-Control-Allow-Method` (with a value including `POST`) and
      * `Access-Control-Allow-Headers` with a value including `Content-Type`.
+     *
+     * If the browser receives a response to the `OPTIONS` request with a valid set of CORS headers
+     * then it makes a `POST` request to the URL.
      */
     function nonSimpleRequest() {
       document.getElementById('nonSimpleMsg').innerText = "Request sent";

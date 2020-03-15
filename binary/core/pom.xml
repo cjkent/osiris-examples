@@ -6,7 +6,7 @@
     <parent>
         <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-binary-example</artifactId>
-        <version>1.3.0</version>
+        <version>1.5.0</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-binary-example-core</artifactId>

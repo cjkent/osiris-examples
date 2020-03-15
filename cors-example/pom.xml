@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <osiris.version>1.5.0-SNAPSHOT</osiris.version>
+        <osiris.version>1.5.0</osiris.version>
         <kotlin.version>1.3.61</kotlin.version>
     </properties>
 

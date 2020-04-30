@@ -82,9 +82,3 @@ Resources:
       Parameters:
         LambdaRole: !GetAtt LambdaRole.Arn
         CognitoUserPoolArn: !GetAtt UserPool.Arn
-
-# This isn't consumed by anything, but is exported as a useful reference
-Outputs:
-  HostedDomainUrl: !Sub "https://osiris-example-${AWS::AccountId}.auth.${AWS::Region}.amazoncognito.com"
-
-# https://osiris-example-882408287024.auth.eu-west-1.amazoncognito.com

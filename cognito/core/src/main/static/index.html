@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+  <title>Osiris Cognito Example</title>
+<script>
+  if (window.location.hash) {
+    let hash = window.location.hash.substr(1);
+    let regex = /id_token=([^&]*)/;
+    let match = hash.match(regex);
+    if (match) {
+      let id_token = match[1];
+      // TODO logged in message
+    } else {
+      // TODO not logged in
+    }
+  } else {
+    // TODO not logged in
+  }
+</script>
+</head>
+<body>
+
+</body>
+</html>

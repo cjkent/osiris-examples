@@ -75,6 +75,7 @@ Resources:
         - implicit
       CallbackURLs:
         - !Sub "https://${ApiStack.Outputs.ApiId}.execute-api.${AWS::Region}.amazonaws.com/dev"
+      DefaultCallbackURI: !Sub "https://${ApiStack.Outputs.ApiId}.execute-api.${AWS::Region}.amazonaws.com/dev"
 
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain

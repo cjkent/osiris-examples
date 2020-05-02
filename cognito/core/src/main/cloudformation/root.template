@@ -65,9 +65,11 @@ Resources:
       AllowedOAuthScopes:
         - openid
         - profile
+        - email
+        - phone
       ExplicitAuthFlows:
         # TODO I have no idea which of these I need
-        - ALLOW_USER_SRP_AUTH
+        - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
       AllowedOAuthFlows:
         - implicit

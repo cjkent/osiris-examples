@@ -46,13 +46,33 @@ Resources:
     Type: AWS::Cognito::UserPool
     Properties:
       UserPoolName: OsirisExample
+      UsernameAttributes:
+        - phone_number
+        - email
+      UsernameConfiguration:
+        CaseSensitive: false
 
+  # TODO enable user pool as an identity provider (is this not done by default?)
   UserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       ClientName: OsirisExampleClient
       GenerateSecret: false
       UserPoolId: !Ref UserPool
+      AllowedOAuthFlowsUserPoolClient: true
+      SupportedIdentityProviders:
+        - COGNITO
+      AllowedOAuthScopes:
+        - openid
+        - profile
+      ExplicitAuthFlows:
+        # TODO I have no idea which of these I need
+        - ALLOW_USER_SRP_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+      AllowedOAuthFlows:
+        - implicit
+      CallbackURLs:
+        - !Sub "https://${ApiStack.Outputs.ApiId}.execute-api.${AWS::Region}.amazonaws.com/dev"
 
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain

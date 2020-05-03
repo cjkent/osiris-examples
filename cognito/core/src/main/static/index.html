@@ -18,8 +18,6 @@
 
     if (idToken) {
       document.getElementById('msg').innerText = 'Logged in';
-      document.getElementById('token').innerText = `ID token: ${btoa(idToken)}`;
-      document.getElementById('token2').innerText = `ID token: ${idToken}`;
       document.getElementById('requestButton').disabled = false;
       return;
     }
@@ -41,7 +39,7 @@
   }
 
   function makeRequest() {
-    document.getElementById('response').innerText = '';
+    document.getElementById('response').innerText = 'making request';
     let idToken = parseIdToken();
     if (!idToken) {
       console.log('no ID token found');
@@ -53,7 +51,7 @@
         Authorization: `Bearer ${idToken}`
       }
     }
-    // TODO why does this need the stage prefix? that seems weird and wrong
+    // TODO why does this need the 'dev' prefix when this file is served from /dev?
     fetch('/dev/hello', options)
         .then(response => response.text())
         .then(bodyText => document.getElementById('response').innerText = `response: ${bodyText}`);
@@ -62,8 +60,6 @@
 </head>
 <body onload="onLoad()">
 <div id="msg"></div>
-<div id="token"></div>
-<div id="token2"></div>
 <input type="button" id="requestButton" value="Make Request to API" disabled onclick="makeRequest()">
 <div id="response"></div>
 </body>

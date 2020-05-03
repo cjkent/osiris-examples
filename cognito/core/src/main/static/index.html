@@ -2,22 +2,69 @@
 <head>
   <title>Osiris Cognito Example</title>
 <script>
-  if (window.location.hash) {
-    let hash = window.location.hash.substr(1);
-    let regex = /id_token=([^&]*)/;
-    let match = hash.match(regex);
-    if (match) {
-      let id_token = match[1];
-      // TODO logged in message
-    } else {
-      // TODO not logged in
+  function onLoad() {
+    // TODO custom CloudFormation resource to substitute these?
+    let awsAccountId = 'TODO-your-AWS-account-ID';
+    let awsRegion = 'TODO-your-AWS-region';
+    let cognitoClientId = 'TODO-your-cognito-client-ID';
+    let apiId = 'TODO-your-APIGateway-API-ID';
+
+    let loginUrl = `https://osiris-example-${awsAccountId}.auth.${awsRegion}.amazoncognito.com/login?` +
+        `client_id=${cognitoClientId}&response_type=token&scope=email+openid+phone+profile&` +
+        `redirect_uri=https://${apiId}.execute-api.${awsRegion}.amazonaws.com/dev`;
+
+    let idToken = parseIdToken();
+    console.log(`idToken: ${idToken}`);
+
+    if (idToken) {
+      document.getElementById('msg').innerText = 'Logged in';
+      document.getElementById('token').innerText = `ID token: ${btoa(idToken)}`;
+      document.getElementById('token2').innerText = `ID token: ${idToken}`;
+      document.getElementById('requestButton').disabled = false;
+      return;
     }
-  } else {
-    // TODO not logged in
+    // not logged in - redirect to login page
+    console.log(`not logged in, redirecting to ${loginUrl}`);
+    window.location = loginUrl;
+  }
+
+  function parseIdToken() {
+    if (window.location.hash) {
+      let hash = window.location.hash.substr(1);
+      let regex = /id_token=([^&]*)/;
+      let match = hash.match(regex);
+      if (match) {
+        return match[1];
+      }
+    }
+    return null;
+  }
+
+  function makeRequest() {
+    document.getElementById('response').innerText = '';
+    let idToken = parseIdToken();
+    if (!idToken) {
+      console.log('no ID token found');
+      return;
+    }
+    let options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${idToken}`
+      }
+    }
+    // TODO why does this need the stage prefix? that seems weird and wrong
+    fetch('/dev/hello', options)
+        .then(response => response.text())
+        .then(bodyText => document.getElementById('response').innerText = `response: ${bodyText}`);
   }
 </script>
 </head>
-<body>
-
+<body onload="onLoad()">
+<div id="msg"></div>
+<div id="token"></div>
+<div id="token2"></div>
+<input type="button" id="requestButton" value="Make Request to API" disabled onclick="makeRequest()">
+<div id="response"></div>
 </body>
 </html>

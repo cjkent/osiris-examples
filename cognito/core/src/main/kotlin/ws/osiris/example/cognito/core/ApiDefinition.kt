@@ -1,6 +1,8 @@
 package ws.osiris.example.cognito.core
 
 import ws.osiris.core.ComponentsProvider
+import ws.osiris.core.HttpHeaders
+import ws.osiris.core.MimeTypes
 import ws.osiris.core.api
 
 /** The API. */
@@ -11,9 +13,10 @@ val api = api<ComponentsProvider> {
         indexFile = "index.html"
     }
 
-    get("/helloworld") {
-        // return a map that is automatically converted to JSON
-        mapOf("message" to "hello, world!")
+    get("/hello") { req ->
+        req.responseBuilder()
+            .header(HttpHeaders.CONTENT_TYPE, MimeTypes.TEXT_PLAIN)
+            .build("hello, world!")
     }
 }
 

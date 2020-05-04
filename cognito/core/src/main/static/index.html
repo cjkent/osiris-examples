@@ -10,8 +10,8 @@
     let apiId = 'TODO-your-APIGateway-API-ID';
 
     let loginUrl = `https://osiris-example-${awsAccountId}.auth.${awsRegion}.amazoncognito.com/login?` +
-        `client_id=${cognitoClientId}&response_type=token&scope=email+openid+phone+profile&` +
-        `redirect_uri=https://${apiId}.execute-api.${awsRegion}.amazonaws.com/dev`;
+        `redirect_uri=https://${apiId}.execute-api.${awsRegion}.amazonaws.com/dev/&client_id=${cognitoClientId}&` +
+        `response_type=token&scope=email+openid+phone+profile`;
 
     let idToken = parseIdToken();
     console.log(`idToken: ${idToken}`);
@@ -51,8 +51,7 @@
         Authorization: `Bearer ${idToken}`
       }
     }
-    // TODO why does this need the 'dev' prefix when this file is served from /dev?
-    fetch('/dev/hello', options)
+    fetch('hello', options)
         .then(response => response.text())
         .then(bodyText => document.getElementById('response').innerText = `response: ${bodyText}`);
   }

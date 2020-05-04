@@ -2,6 +2,7 @@ package ws.osiris.example.cognito.core
 
 import com.google.gson.Gson
 import org.slf4j.LoggerFactory
+import ws.osiris.aws.CognitoUserPoolsAuth
 import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
 import ws.osiris.core.MimeTypes
@@ -39,13 +40,16 @@ val api = api<ComponentsProvider> {
         handler(updatedReq)
     }
 
-    get("/hello") { req ->
-        // get the user info from the request attributes that were populated by the filter
-        val email = req.attribute<String>("email")
-        val cognitoUsername = req.attribute<String>("cognitoUsername")
-        req.responseBuilder()
-            .header(HttpHeaders.CONTENT_TYPE, MimeTypes.TEXT_PLAIN)
-            .build("hello, $email! your Cognito username is '$cognitoUsername'")
+    auth(CognitoUserPoolsAuth) {
+
+        get("/hello") { req ->
+            // get the user info from the request attributes that were populated by the filter
+            val email = req.attribute<String>("email")
+            val cognitoUsername = req.attribute<String>("cognitoUsername")
+            req.responseBuilder()
+                .header(HttpHeaders.CONTENT_TYPE, MimeTypes.TEXT_PLAIN)
+                .build("hello, $email! your Cognito username is '$cognitoUsername'")
+        }
     }
 }
 

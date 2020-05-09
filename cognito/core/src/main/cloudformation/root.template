@@ -49,10 +49,11 @@ Resources:
       UsernameAttributes:
         - phone_number
         - email
+      AutoVerifiedAttributes:
+        - email
       UsernameConfiguration:
         CaseSensitive: false
 
-  # TODO enable user pool as an identity provider (is this not done by default?)
   UserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -68,7 +69,6 @@ Resources:
         - email
         - phone
       ExplicitAuthFlows:
-        # TODO I have no idea which of these I need
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
       AllowedOAuthFlows:

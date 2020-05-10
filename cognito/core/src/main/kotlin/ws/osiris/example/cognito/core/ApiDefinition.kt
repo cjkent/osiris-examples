@@ -1,7 +1,6 @@
 package ws.osiris.example.cognito.core
 
 import com.google.gson.Gson
-import org.slf4j.LoggerFactory
 import ws.osiris.aws.CognitoUserPoolsAuth
 import ws.osiris.core.ComponentsProvider
 import ws.osiris.core.HttpHeaders
@@ -9,12 +8,8 @@ import ws.osiris.core.MimeTypes
 import ws.osiris.core.api
 import java.util.Base64
 
-private val gson = Gson()
-
-private val log = LoggerFactory.getLogger("ws.osiris.example.cognito.core")
-
 /** The API. */
-val api = api<ComponentsProvider> {
+val api = api<CognitoExampleComponentsProvider> {
 
     staticFiles {
         path = "/"
@@ -35,7 +30,6 @@ val api = api<ComponentsProvider> {
         val cognitoUsername = tokenMap.getValue("cognito:username")
         // put the user info into request attributes so it can be used by the endpoints
         val updatedReq = req.withAttribute("email", email).withAttribute("cognitoUsername", cognitoUsername)
-        log.info("Request received, email: {}, Cognito username: {}", email, cognitoUsername)
         // pass the updated request containing the user info on to the next handler (the endpoint)
         handler(updatedReq)
     }
@@ -56,4 +50,12 @@ val api = api<ComponentsProvider> {
 /**
  * Creates the components used by the example API.
  */
-fun createComponents(): ComponentsProvider = object : ComponentsProvider {}
+fun createComponents(): CognitoExampleComponentsProvider = CognitoExampleComponentsProviderImpl()
+
+interface CognitoExampleComponentsProvider : ComponentsProvider {
+    val gson: Gson
+}
+
+class CognitoExampleComponentsProviderImpl : CognitoExampleComponentsProvider {
+    override val gson: Gson = Gson()
+}

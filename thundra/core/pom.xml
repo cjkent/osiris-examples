@@ -6,7 +6,7 @@
     <parent>
         <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-thundra-example</artifactId>
-        <version>1.5.0</version>
+        <version>1.5.3</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-thundra-example-core</artifactId>

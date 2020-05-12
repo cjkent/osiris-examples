@@ -2,7 +2,7 @@
 This example shows how to integrate Osiris with [AWS Cognito](https://aws.amazon.com/cognito/) in order to sign up and authenticate users. Cognito is used to authenticate users, and the [Cognito Hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html) is used to allow users to sign up and sign in.
 
 ## API Definition
-The endpoint in the API is in an `auth` block specifying `CognitoUserPoolsAuth`. This means that API Gateway verifies that the `Authenitcation` header contains a token issued by the Cognito User Pool associated with the API. If the request contains a valid token it is allowed to proceed, otherwise a status of 403 (Forbidden) is returned before the request reaches the Osiris code.
+The endpoint in the API is in an `auth` block specifying `CognitoUserPoolsAuth`. This means that API Gateway verifies that the `Authorization` header contains a token issued by the Cognito User Pool associated with the API. If the request contains a valid token it is allowed to proceed, otherwise a status of 403 (Forbidden) is returned before the request reaches the Osiris code.
 
 The API definition contains a `filter` that extracts the user information from the token. The token is a JSON Web Token (JWT) encoded as a Base64 string. The filter converts it to text, parses the JSON into a map and extracts the fields containing the user email and their Cognito ID.
 

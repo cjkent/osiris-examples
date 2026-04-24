@@ -20,7 +20,7 @@ val api = api<DynamoExampleComponents> {
     }
     post("/values") { req ->
         val id = UUID.randomUUID().toString()
-        val value = req.requireBody(String::class)
+        val value = req.body<String>()
         dynamoClient.putItem(ITEMS_TABLE, mapOf(ID to AttributeValue(id), VALUE to AttributeValue(value)))
         req.responseBuilder().status(201).header(HttpHeaders.LOCATION, "/values/$id").build()
     }

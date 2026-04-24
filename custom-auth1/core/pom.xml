@@ -6,7 +6,7 @@
     <parent>
         <groupId>ws.osiris.example</groupId>
         <artifactId>osiris-custom-auth-example1</artifactId>
-        <version>1.5.3</version>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>osiris-custom-auth-example1-core</artifactId>
@@ -23,19 +23,15 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <artifactId>kotlin-stdlib</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
-            <artifactId>aws-lambda-java-log4j</artifactId>
+            <artifactId>aws-lambda-java-log4j2</artifactId>
         </dependency>
     </dependencies>
 
@@ -43,13 +39,9 @@
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
-            <!--
-            Create the distribution jar with all dependencies.
-            Must be before the Osiris plugin so the jar is available when the generate-cloudformation goal runs.
-            -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.7.1</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/dist.xml</descriptor>
@@ -65,7 +57,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--Configuration controlling how the API is deployed to API Gateway and Lambda-->
             <plugin>
                 <groupId>ws.osiris</groupId>
                 <artifactId>osiris-maven-plugin</artifactId>

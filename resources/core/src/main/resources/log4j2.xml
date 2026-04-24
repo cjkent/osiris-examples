@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Lambda name="Lambda"/>
+    </Appenders>
+    <Loggers>
+        <Logger name="ws.osiris.example.resources" level="info"/>
+        <Logger name="ws.osiris" level="info"/>
+        <Root level="warn">
+            <AppenderRef ref="Lambda"/>
+        </Root>
+    </Loggers>
+</Configuration>

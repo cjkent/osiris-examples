@@ -11,7 +11,7 @@ import ws.osiris.core.api
 val api = api<ResourcesExampleComponents> {
 
     post("/messages") { req ->
-        val body = req.requireBody(String::class)
+        val body = req.body<String>()
         val result = sqsClient.sendMessage(SendMessageRequest().apply {
             queueUrl = sqsQueueUrl
             messageBody = body
@@ -43,7 +43,7 @@ val api = api<ResourcesExampleComponents> {
     // Also, using the receipt handle in the path wouldn't work as it's an enormous string that's full
     // of characters that can't be used in a URL
     post("/messages/delete") { req ->
-        sqsClient.deleteMessage(sqsQueueUrl, req.requireBody(String::class))
+        sqsClient.deleteMessage(sqsQueueUrl, req.body<String>())
     }
 }
 

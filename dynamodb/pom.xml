@@ -50,6 +50,12 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>src/main/kotlin</sourceDir>
+                                <sourceDir>${project.build.directory}/generated-sources/osiris</sourceDir>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>test-compile</id>
@@ -61,10 +67,6 @@
                 </executions>
                 <configuration>
                     <jvmTarget>11</jvmTarget>
-                    <sourceDirs>
-                        <sourceDir>src/main/kotlin</sourceDir>
-                        <sourceDir>${project.build.directory}/generated-sources/osiris</sourceDir>
-                    </sourceDirs>
                 </configuration>
             </plugin>
         </plugins>
